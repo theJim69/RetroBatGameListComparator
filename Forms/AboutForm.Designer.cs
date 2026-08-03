@@ -109,7 +109,7 @@ partial class AboutForm
         lblAuthor.TextAlign = ContentAlignment.MiddleCenter;
 
         lblAuthor.Text =
-            "Développé par\r\nJeremy Maes";
+            "Développé par\r\ntheJim";
 
         //
         // linkGithub
@@ -132,7 +132,7 @@ partial class AboutForm
 
         lblFooter.Text =
             "Version : 1.0.0      Framework : .NET 8\r\n" +
-            "© 2026 Jeremy Maes • Windows Forms • C#";
+            "© 2026 theJim • Windows Forms • C#";
 
         //
         // btnClose
