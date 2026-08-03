@@ -4,10 +4,7 @@
 ![Platform](https://img.shields.io/badge/Platform-Windows-blue)
 ![License](https://img.shields.io/badge/License-MIT-green)
 ![Release](https://img.shields.io/badge/Version-1.0.0-orange)
-
-
 ![GitHub release](https://img.shields.io/github/v/release/theJim69/RetroBatGameListComparator)
-
 ![Downloads](https://img.shields.io/github/downloads/theJim69/RetroBatGameListComparator/total)
 
 A lightweight Windows utility to compare a RetroBat ROM folder with its corresponding `gamelist.xml`.
