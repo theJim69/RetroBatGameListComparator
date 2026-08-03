@@ -153,7 +153,7 @@ See the [LICENSE](LICENSE) file for details.
 
 # 👤 Author
 
-Jeremy Maes
+theJim
 
 GitHub:
 
