@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
-  </PropertyGroup>
+    </PropertyGroup>
 
   <ItemGroup>
     <None Remove="Data\Extensions.txt" />
@@ -16,11 +16,11 @@
     <Content Include="Data\Extensions.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Resources\RetroBatGameListComparator.ico" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Exports\" />
-    <Folder Include="Resources\" />
   </ItemGroup>
 
 </Project>
