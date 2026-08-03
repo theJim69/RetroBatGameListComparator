@@ -42,7 +42,7 @@ The application's main interface
 
 ### About Dialog
 
-![About](./doc/images/about.png)
+Doc/images/about.png
 
 ---
 
