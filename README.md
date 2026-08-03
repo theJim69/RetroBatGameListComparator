@@ -13,8 +13,6 @@ A lightweight Windows utility to detect missing ROMs, obsolete XML entries and k
 ![License](https://img.shields.io/github/license/theJim69/RetroBatGameListComparator?style=for-the-badge)
 ![.NET](https://img.shields.io/badge/.NET-8.0-purple?style=for-the-badge)
 ![Windows](https://img.shields.io/badge/Windows-10%20%7C%2011-blue?style=for-the-badge)
-
-![Release](https://img.shields.io/badge/Version-1.0.0-orange)
 </div>
 
 ---
