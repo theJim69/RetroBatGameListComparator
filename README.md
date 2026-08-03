@@ -7,7 +7,7 @@
 
 
 ![GitHub release](https://img.shields.io/github/v/release/theJim69/RetroBatGameListComparator)
-![License](https://img.shields.io/github/license/theJim69/RetroBatGameListComparator)
+
 ![Downloads](https://img.shields.io/github/downloads/theJim69/RetroBatGameListComparator/total)
 
 A lightweight Windows utility to compare a RetroBat ROM folder with its corresponding `gamelist.xml`.
