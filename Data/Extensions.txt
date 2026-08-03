@@ -1,0 +1,13 @@
+﻿.7z
+.bin
+.chd
+.cue
+.gb
+.gba
+.gbc
+.iso
+.n64
+.nes
+.sfc
+.smc
+.zip
