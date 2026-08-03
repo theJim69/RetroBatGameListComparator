@@ -37,18 +37,12 @@ It quickly detects inconsistencies between your ROM collection and the GameList,
 
 The application's main interface
 
-<p align="center">
-  <img src="docs/images/main-window.png" width="900">
-</p>
+![Main Window](./docs/images/mainwindow.png)
 
 
 ### About Dialog
 
-<h2>About</h2>
-
-<p align="center">
-    <img src="docs/images/about.png" width="500">
-</p>
+![About](./docs/images/about.png)
 
 ---
 
