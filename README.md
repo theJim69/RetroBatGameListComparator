@@ -37,12 +37,12 @@ It quickly detects inconsistencies between your ROM collection and the GameList,
 
 The application's main interface
 
-![Main Window](./doc/images/mainwindow.png)
+![Main Window](./Doc/images/mainwindow.png)
 
 
 ### About Dialog
 
-Doc/images/about.png
+![About](./Doc/images/about.png)
 
 ---
 
