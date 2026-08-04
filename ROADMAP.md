@@ -6,23 +6,49 @@ The roadmap is subject to change according to user feedback and future ideas.
 
 ---
 
-# Version 1.6
+# Version 1.5.1
 
-## GameList Inspector
+🇬🇧 English Localization
 
-A brand new inspection tool dedicated to validating `gamelist.xml`.
+### Goals
 
-Planned features:
+- Translate the complete interface
+- Translate dialogs
+- Translate MessageBox texts
+- Translate TXT export
+- Translate CSV export
+- Prepare localization resources
 
-- Detect duplicate `<path>` entries
-- Detect duplicate games
-- Detect invalid `<multidisk>` entries
-- Detect missing ROM files
-- Detect broken image paths
-- Detect missing videos
-- Detect missing manuals
-- Detect invalid metadata
-- XML consistency report
+---
+
+# Version 1.5.2
+
+🇪🇸 Spanish Localization
+
+### Goals
+
+- Complete Spanish translation
+- Review exported reports
+- Review terminology
+- Improve localization support
+
+---
+
+# Version 1.6.0
+
+🔍 GameList Inspector
+
+### Planned Features
+
+- Duplicate `<path>` detection
+- Duplicate games detection
+- Invalid MultiDisk entries
+- Missing ROMs
+- Missing images
+- Missing videos
+- Missing manuals
+- XML consistency checker
+- Repair suggestions
 
 ---
 

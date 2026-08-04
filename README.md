@@ -189,6 +189,14 @@ The application automatically detects and fills the required information.
 
 # 📋 Roadmap
 
+### Version 1.5.1
+
+- 🇬🇧 English localization
+
+### Version 1.5.2
+
+- 🇪🇸 Spanish localization
+
 ## Version 1.6
 
 - GameList Inspector

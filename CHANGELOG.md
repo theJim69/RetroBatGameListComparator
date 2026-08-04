@@ -6,6 +6,44 @@ This project follows **Semantic Versioning** and is inspired by the **Keep a Cha
 
 ---
 
+# [Unreleased]
+
+## Planned
+
+### Version 1.5.1
+
+#### Added
+
+- Complete English localization
+- Language resources
+- English documentation review
+
+---
+
+### Version 1.5.2
+
+#### Added
+
+- Complete Spanish localization
+- Spanish documentation
+- Localization improvements
+
+---
+
+### Version 1.6.0
+
+#### Planned
+
+- GameList Inspector
+- Duplicate `<path>` detection
+- Duplicate games detection
+- XML consistency checker
+- Missing images detection
+- Missing videos detection
+- Missing manuals detection
+- Invalid MultiDisk detection
+- Automatic repair suggestions
+
 # [1.5.0] - 2026-08-04
 
 ## 🎉 Major Update
