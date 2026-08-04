@@ -29,15 +29,47 @@ public partial class ExtensionSelectorForm : Form
 
         RefreshList();
     }
+
+    protected override void OnShown(EventArgs e)
+    {
+        base.OnShown(e);
+
+        txtSearch.Focus();
+    }
+
+    protected override bool ProcessCmdKey(
+        ref Message msg,
+        Keys keyData)
+    {
+        if (keyData == Keys.Escape)
+        {
+            if (!string.IsNullOrWhiteSpace(txtSearch.Text))
+            {
+                txtSearch.Clear();
+                txtSearch.Focus();
+            }
+            else
+            {
+                DialogResult = DialogResult.Cancel;
+                Close();
+            }
+
+            return true;
+        }
+
+        return base.ProcessCmdKey(ref msg, keyData);
+    }
+
     private void txtSearch_TextChanged(
-    object sender,
-    EventArgs e)
+        object sender,
+        EventArgs e)
     {
         RefreshList();
     }
+
     private void lvExtensions_ItemChecked(
-    object sender,
-    ItemCheckedEventArgs e)
+        object sender,
+        ItemCheckedEventArgs e)
     {
         if (e.Item.Checked)
             _selected.Add(e.Item.Text);
@@ -98,7 +130,8 @@ public partial class ExtensionSelectorForm : Form
         if (!string.IsNullOrWhiteSpace(filter))
         {
             extensions = extensions.Where(x =>
-                x.Contains(filter,
+                x.Contains(
+                    filter,
                     StringComparison.OrdinalIgnoreCase));
         }
 

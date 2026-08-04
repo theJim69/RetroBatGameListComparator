@@ -6,39 +6,110 @@ public class ComparisonService
 {
     public ComparisonResult Compare(
         List<RomEntry> disk,
-        List<RomEntry> xml)
+        GameListData gameList)
     {
         ComparisonResult result = new();
 
-        result.DiskCount = disk.Count;
-        result.XmlCount = xml.Count;
+        List<RomEntry> xml = gameList.Games;
 
-        HashSet<string> diskFiles =
-            disk.Select(x => x.FileName)
+        //----------------------------------------------------------
+        // Statistiques
+        //----------------------------------------------------------
+
+        result.DiskCount = disk.Count;
+
+        result.ComparedCount =
+            disk.Count(r =>
+                !gameList.HiddenFiles.Contains(r.FileName) &&
+                !gameList.MultiDiskFiles.Contains(r.FileName));
+
+        result.XmlCount =
+            xml.Count;
+
+        result.MultiDiskIgnoredCount =
+            gameList.MultiDiskIgnoredCount;
+
+        result.HiddenIgnoredCount =
+            gameList.HiddenIgnoredCount;
+
+        //----------------------------------------------------------
+        // Préparation des HashSet
+        //----------------------------------------------------------
+
+        HashSet<string> diskPaths =
+            disk
+                .Where(r =>
+                    !gameList.HiddenFiles.Contains(r.FileName) &&
+                    !gameList.MultiDiskFiles.Contains(r.FileName))
+                .Select(x =>
+                    NormalizePath(x.RelativePath))
                 .ToHashSet(StringComparer.OrdinalIgnoreCase);
 
-        HashSet<string> xmlFiles =
-            xml.Select(x => x.FileName)
-               .ToHashSet(StringComparer.OrdinalIgnoreCase);
+        HashSet<string> xmlPaths =
+            xml
+                .Select(x =>
+                    NormalizePath(x.RelativePath))
+                .ToHashSet(StringComparer.OrdinalIgnoreCase);
+
+        //----------------------------------------------------------
+        // ROM présentes sur le disque
+        //----------------------------------------------------------
 
         foreach (RomEntry rom in disk)
         {
-            if (xmlFiles.Contains(rom.FileName))
+            if (gameList.HiddenFiles.Contains(rom.FileName))
+                continue;
+
+            if (gameList.MultiDiskFiles.Contains(rom.FileName))
+                continue;
+
+            if (xmlPaths.Contains(
+                    NormalizePath(rom.RelativePath)))
+            {
                 result.MatchingCount++;
+            }
             else
+            {
                 result.MissingFromXml.Add(rom);
+            }
         }
+
+        //----------------------------------------------------------
+        // ROM présentes dans le XML
+        //----------------------------------------------------------
 
         foreach (RomEntry rom in xml)
         {
-            if (!diskFiles.Contains(rom.FileName))
+            if (gameList.HiddenFiles.Contains(rom.FileName))
+                continue;
+
+            if (!diskPaths.Contains(
+                    NormalizePath(rom.RelativePath)))
+            {
                 result.MissingFromDisk.Add(rom);
+            }
         }
 
-        result.AllDiskRoms = disk
-            .OrderBy(x => x.FileName)
-            .ToList();
+        //----------------------------------------------------------
+        // Liste complète des ROMs comparées
+        //----------------------------------------------------------
+
+        result.AllDiskRoms =
+            disk
+                .Where(r =>
+                    !gameList.HiddenFiles.Contains(r.FileName) &&
+                    !gameList.MultiDiskFiles.Contains(r.FileName))
+                .OrderBy(x => x.RelativePath)
+                .ToList();
 
         return result;
+    }
+
+    private static string NormalizePath(string path)
+    {
+        return path
+            .Replace('\\', '/')
+            .TrimStart('.', '/')
+            .Trim();
     }
 }

@@ -30,11 +30,13 @@ public class ExportService
         sb.AppendLine("--------------------------------------------------------------");
         sb.AppendLine();
 
-        sb.AppendLine($"ROMs disque      : {result.DiskCount}");
-        sb.AppendLine($"Entrées XML      : {result.XmlCount}");
-        sb.AppendLine($"Correspondances  : {result.MatchingCount}");
-        sb.AppendLine($"Absentes XML     : {result.MissingFromXml.Count}");
-        sb.AppendLine($"Absentes disque  : {result.MissingFromDisk.Count}");
+        sb.AppendLine($"ROMs comparées     : {result.ComparedCount}");
+        sb.AppendLine($"Entrées XML        : {result.XmlCount}");
+        sb.AppendLine($"Correspondances    : {result.MatchingCount}");
+        sb.AppendLine($"MultiDisk ignorés  : {result.MultiDiskIgnoredCount}");
+        sb.AppendLine($"Jeux cachés        : {result.HiddenIgnoredCount}");
+        sb.AppendLine($"Absentes XML       : {result.MissingFromXml.Count}");
+        sb.AppendLine($"Absentes disque    : {result.MissingFromDisk.Count}");
 
         sb.AppendLine();
         sb.AppendLine("==============================================================");
@@ -96,9 +98,10 @@ public class ExportService
 
         File.WriteAllText(fileName, sb.ToString(), Encoding.UTF8);
     }
+
     public void ExportCsv(
-    string fileName,
-    ComparisonResult result)
+        string fileName,
+        ComparisonResult result)
     {
         using StreamWriter writer = new(fileName, false, Encoding.UTF8);
 
@@ -109,8 +112,9 @@ public class ExportService
             string state = "OK";
 
             if (result.MissingFromXml.Any(x =>
-                x.FileName.Equals(rom.FileName,
-                StringComparison.OrdinalIgnoreCase)))
+                x.FileName.Equals(
+                    rom.FileName,
+                    StringComparison.OrdinalIgnoreCase)))
             {
                 state = "Absente XML";
             }
@@ -124,12 +128,18 @@ public class ExportService
         }
     }
 
-    private static string CreateCsvLine(string state, RomEntry rom)
+    private static string CreateCsvLine(
+        string state,
+        RomEntry rom)
     {
-        string name = Path.GetFileNameWithoutExtension(rom.FileName);
-        string extension = Path.GetExtension(rom.FileName);
+        string name =
+            Path.GetFileNameWithoutExtension(rom.FileName);
 
-        string folder = Path.GetDirectoryName(rom.RelativePath);
+        string extension =
+            Path.GetExtension(rom.FileName);
+
+        string folder =
+            Path.GetDirectoryName(rom.RelativePath);
 
         if (string.IsNullOrWhiteSpace(folder))
             folder = "[racine]";

@@ -2,9 +2,36 @@
 
 public class RomEntry
 {
-    public string FileName { get; set; } = "";
+    /// <summary>
+    /// Nom du fichier.
+    /// Exemple : Mario.zip
+    /// </summary>
+    public string FileName { get; set; } = string.Empty;
 
-    public string RelativePath { get; set; } = "";
+    /// <summary>
+    /// Chemin relatif.
+    /// Exemple : SNES\Mario.zip
+    /// </summary>
+    public string RelativePath { get; set; } = string.Empty;
 
-    public string FullPath { get; set; } = "";
+    /// <summary>
+    /// Chemin complet de la ROM.
+    /// Exemple : D:\RetroBat\roms\snes\Mario.zip
+    /// </summary>
+    public string FullPath { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Chemin complet du fichier gamelist.xml.
+    /// </summary>
+    public string GameListPath { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Indique si la ROM est présente sur le disque.
+    /// </summary>
+    public bool ExistsOnDisk { get; set; }
+
+    /// <summary>
+    /// Indique si la ROM est présente dans le gamelist.xml.
+    /// </summary>
+    public bool ExistsInGameList { get; set; }
 }

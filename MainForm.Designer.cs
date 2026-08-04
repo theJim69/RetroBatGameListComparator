@@ -44,6 +44,7 @@
             mnuGitHub = new ToolStripMenuItem();
             toolStripSeparator1 = new ToolStripSeparator();
             mnuAbout = new ToolStripMenuItem();
+            mnuCheckUpdates = new ToolStripMenuItem();
             lblHint = new Label();
             lblMissingDisk = new Label();
             lblMissingXml = new Label();
@@ -52,12 +53,14 @@
             lblDiskCount = new Label();
             progressBar = new ProgressBar();
             grpStatistics = new GroupBox();
+            lblHiddenIgnored = new Label();
+            lblMultiDiskIgnored = new Label();
             label1 = new Label();
+            txtSearchXml = new TextBox();
+            txtSearchDisk = new TextBox();
             menuStrip1.SuspendLayout();
             grpStatistics.SuspendLayout();
             SuspendLayout();
-            pnlDropOverlay = new Panel();
-            lblDropOverlay = new Label();
             // 
             // lblRomFolder
             // 
@@ -73,8 +76,7 @@
             txtRomFolder.Location = new Point(13, 48);
             txtRomFolder.Margin = new Padding(3, 2, 3, 2);
             txtRomFolder.Name = "txtRomFolder";
-            txtRomFolder.PlaceholderText =
-            "📁 Glissez ici un dossier de ROMs... Ou sélectionnez un dossier";
+            txtRomFolder.PlaceholderText = "📁 Glissez ici un dossier de ROMs... Ou sélectionnez un dossier";
             txtRomFolder.Size = new Size(560, 23);
             txtRomFolder.TabIndex = 1;
             // 
@@ -102,8 +104,7 @@
             txtGameList.Location = new Point(13, 92);
             txtGameList.Margin = new Padding(3, 2, 3, 2);
             txtGameList.Name = "txtGameList";
-            txtGameList.PlaceholderText =
-            "📄 Glissez ici un fichier gamelist.xml... ou sélectionnez un fichier";
+            txtGameList.PlaceholderText = "📄 Glissez ici un fichier gamelist.xml... ou sélectionnez un fichier";
             txtGameList.Size = new Size(560, 23);
             txtGameList.TabIndex = 4;
             // 
@@ -129,14 +130,14 @@
             // cmbExtension
             // 
             cmbExtension.FormattingEnabled = true;
-            cmbExtension.Location = new Point(13, 140);
+            cmbExtension.Location = new Point(13, 147);
             cmbExtension.Name = "cmbExtension";
-            cmbExtension.Size = new Size(410, 23);
+            cmbExtension.Size = new Size(182, 23);
             cmbExtension.TabIndex = 7;
             // 
             // btnSelectExtensions
             // 
-            btnSelectExtensions.Location = new Point(430, 140);
+            btnSelectExtensions.Location = new Point(205, 147);
             btnSelectExtensions.Name = "btnSelectExtensions";
             btnSelectExtensions.Size = new Size(30, 23);
             btnSelectExtensions.TabIndex = 8;
@@ -147,7 +148,7 @@
             // chkRecursive
             // 
             chkRecursive.AutoSize = true;
-            chkRecursive.Location = new Point(175, 167);
+            chkRecursive.Location = new Point(242, 150);
             chkRecursive.Margin = new Padding(3, 2, 3, 2);
             chkRecursive.Name = "chkRecursive";
             chkRecursive.Size = new Size(204, 19);
@@ -156,7 +157,7 @@
             // 
             // btnCompare
             // 
-            btnCompare.Location = new Point(499, 138);
+            btnCompare.Location = new Point(499, 145);
             btnCompare.Margin = new Padding(3, 2, 3, 2);
             btnCompare.Name = "btnCompare";
             btnCompare.Size = new Size(118, 26);
@@ -169,7 +170,7 @@
             lvMissingFromXml.Columns.AddRange(new ColumnHeader[] { colXmlRom, colXmlFolder });
             lvMissingFromXml.FullRowSelect = true;
             lvMissingFromXml.GridLines = true;
-            lvMissingFromXml.Location = new Point(13, 303);
+            lvMissingFromXml.Location = new Point(13, 315);
             lvMissingFromXml.Margin = new Padding(3, 2, 3, 2);
             lvMissingFromXml.Name = "lvMissingFromXml";
             lvMissingFromXml.Size = new Size(298, 166);
@@ -191,27 +192,27 @@
             // lblMissingXmlTitle
             // 
             lblMissingXmlTitle.AutoSize = true;
-            lblMissingXmlTitle.Location = new Point(13, 286);
+            lblMissingXmlTitle.Location = new Point(13, 294);
             lblMissingXmlTitle.Name = "lblMissingXmlTitle";
-            lblMissingXmlTitle.Size = new Size(116, 15);
+            lblMissingXmlTitle.Size = new Size(99, 15);
             lblMissingXmlTitle.TabIndex = 10;
-            lblMissingXmlTitle.Text = "Absentes du XML (0)";
+            lblMissingXmlTitle.Text = "Absentes du XML";
             // 
             // lblMissingDiskTitle
             // 
             lblMissingDiskTitle.AutoSize = true;
-            lblMissingDiskTitle.Location = new Point(319, 286);
+            lblMissingDiskTitle.Location = new Point(319, 293);
             lblMissingDiskTitle.Name = "lblMissingDiskTitle";
-            lblMissingDiskTitle.Size = new Size(127, 15);
+            lblMissingDiskTitle.Size = new Size(110, 15);
             lblMissingDiskTitle.TabIndex = 11;
-            lblMissingDiskTitle.Text = "Absentes du disque (0)";
+            lblMissingDiskTitle.Text = "Absentes du disque";
             // 
             // lvMissingFromDisk
             // 
             lvMissingFromDisk.Columns.AddRange(new ColumnHeader[] { colDiskRom, colDiskFolder });
             lvMissingFromDisk.FullRowSelect = true;
             lvMissingFromDisk.GridLines = true;
-            lvMissingFromDisk.Location = new Point(319, 303);
+            lvMissingFromDisk.Location = new Point(319, 315);
             lvMissingFromDisk.Margin = new Padding(3, 2, 3, 2);
             lvMissingFromDisk.Name = "lvMissingFromDisk";
             lvMissingFromDisk.Size = new Size(298, 166);
@@ -232,7 +233,7 @@
             // 
             // btnExportTxt
             // 
-            btnExportTxt.Location = new Point(175, 505);
+            btnExportTxt.Location = new Point(175, 517);
             btnExportTxt.Margin = new Padding(3, 2, 3, 2);
             btnExportTxt.Name = "btnExportTxt";
             btnExportTxt.Size = new Size(105, 26);
@@ -242,7 +243,7 @@
             // 
             // btnExportCsv
             // 
-            btnExportCsv.Location = new Point(341, 505);
+            btnExportCsv.Location = new Point(341, 517);
             btnExportCsv.Margin = new Padding(3, 2, 3, 2);
             btnExportCsv.Name = "btnExportCsv";
             btnExportCsv.Size = new Size(105, 26);
@@ -257,6 +258,7 @@
             menuStrip1.Name = "menuStrip1";
             menuStrip1.Size = new Size(634, 24);
             menuStrip1.TabIndex = 0;
+            menuStrip1.ItemClicked += menuStrip1_ItemClicked_1;
             // 
             // mnuFile
             // 
@@ -274,7 +276,7 @@
             // 
             // mnuHelp
             // 
-            mnuHelp.DropDownItems.AddRange(new ToolStripItem[] { mnuGitHub, toolStripSeparator1, mnuAbout });
+            mnuHelp.DropDownItems.AddRange(new ToolStripItem[] { mnuGitHub, toolStripSeparator1, mnuAbout, mnuCheckUpdates });
             mnuHelp.Name = "mnuHelp";
             mnuHelp.Size = new Size(43, 20);
             mnuHelp.Text = "&Aide";
@@ -282,81 +284,93 @@
             // mnuGitHub
             // 
             mnuGitHub.Name = "mnuGitHub";
-            mnuGitHub.Size = new Size(146, 22);
+            mnuGitHub.Size = new Size(193, 22);
             mnuGitHub.Text = "Projet GitHub";
             mnuGitHub.Click += mnuGitHub_Click;
             // 
             // toolStripSeparator1
             // 
             toolStripSeparator1.Name = "toolStripSeparator1";
-            toolStripSeparator1.Size = new Size(143, 6);
+            toolStripSeparator1.Size = new Size(190, 6);
             // 
             // mnuAbout
             // 
             mnuAbout.Name = "mnuAbout";
-            mnuAbout.Size = new Size(146, 22);
+            mnuAbout.Size = new Size(193, 22);
             mnuAbout.Text = "À propos...";
             mnuAbout.Click += mnuAbout_Click;
+            // 
+            // mnuCheckUpdates
+            // 
+            mnuCheckUpdates.Name = "mnuCheckUpdates";
+            mnuCheckUpdates.Size = new Size(193, 22);
+            mnuCheckUpdates.Text = "Vérifier les mises à jour";
+            mnuCheckUpdates.Click += mnuCheckUpdates_Click;
             // 
             // lblHint
             // 
             lblHint.ForeColor = SystemColors.GrayText;
-            lblHint.Location = new Point(18, 480);
+            lblHint.Location = new Point(18, 492);
             lblHint.Name = "lblHint";
             lblHint.Size = new Size(594, 18);
             lblHint.TabIndex = 20;
-            lblHint.Text = "💡 Astuce : double-cliquez sur une ROM pour l'ouvrir directement dans l'Explorateur Windows.";
+            lblHint.Text = "💡 Astuce : Double-cliquez sur une ROM pour ouvrir son emplacement ou sa GameList.xml.";
             lblHint.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // lblMissingDisk
             // 
             lblMissingDisk.AutoSize = true;
-            lblMissingDisk.Location = new Point(158, 47);
+            lblMissingDisk.Location = new Point(162, 47);
             lblMissingDisk.Name = "lblMissingDisk";
-            lblMissingDisk.Size = new Size(108, 15);
+            lblMissingDisk.Size = new Size(125, 15);
             lblMissingDisk.TabIndex = 4;
-            lblMissingDisk.Text = "Absentes disque : 0";
+            lblMissingDisk.Text = "Absentes du disque : 0";
             // 
             // lblMissingXml
             // 
             lblMissingXml.AutoSize = true;
-            lblMissingXml.Location = new Point(13, 47);
+            lblMissingXml.Location = new Point(14, 47);
             lblMissingXml.Name = "lblMissingXml";
-            lblMissingXml.Size = new Size(97, 15);
+            lblMissingXml.Size = new Size(114, 15);
             lblMissingXml.TabIndex = 3;
-            lblMissingXml.Text = "Absentes XML : 0";
+            lblMissingXml.Text = "Absentes du XML : 0";
             // 
             // lblMatching
             // 
             lblMatching.AutoSize = true;
-            lblMatching.Location = new Point(332, 18);
+            lblMatching.Location = new Point(162, 22);
             lblMatching.Name = "lblMatching";
-            lblMatching.Size = new Size(114, 15);
+            lblMatching.Size = new Size(99, 15);
             lblMatching.TabIndex = 2;
-            lblMatching.Text = "Correspondances : 0";
+            lblMatching.Text = "ROMs validées : 0";
             // 
             // lblXmlCount
             // 
             lblXmlCount.AutoSize = true;
-            lblXmlCount.Location = new Point(158, 23);
+            lblXmlCount.Font = new Font("Segoe UI", 9F);
+            lblXmlCount.Location = new Point(14, 22);
             lblXmlCount.Name = "lblXmlCount";
             lblXmlCount.Size = new Size(87, 15);
             lblXmlCount.TabIndex = 1;
             lblXmlCount.Text = "Entrées XML : 0";
+            lblXmlCount.Click += lblXmlCount_Click;
             // 
             // lblDiskCount
             // 
             lblDiskCount.AutoSize = true;
-            lblDiskCount.Location = new Point(13, 23);
+            lblDiskCount.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
+            lblDiskCount.ForeColor = Color.Black;
+            lblDiskCount.Location = new Point(368, 17);
             lblDiskCount.Name = "lblDiskCount";
-            lblDiskCount.Size = new Size(92, 15);
+            lblDiskCount.Size = new Size(177, 17);
             lblDiskCount.TabIndex = 0;
-            lblDiskCount.Text = "ROMs disque : 0";
+            lblDiskCount.Text = "⭐ Jeux de la plateforme : 0";
+            lblDiskCount.Click += lblDiskCount_Click;
             // 
             // progressBar
             // 
             progressBar.ForeColor = Color.Blue;
-            progressBar.Location = new Point(337, 39);
+            progressBar.Location = new Point(343, 39);
             progressBar.Name = "progressBar";
             progressBar.Size = new Size(261, 23);
             progressBar.TabIndex = 21;
@@ -364,6 +378,8 @@
             // 
             // grpStatistics
             // 
+            grpStatistics.Controls.Add(lblHiddenIgnored);
+            grpStatistics.Controls.Add(lblMultiDiskIgnored);
             grpStatistics.Controls.Add(label1);
             grpStatistics.Controls.Add(progressBar);
             grpStatistics.Controls.Add(lblDiskCount);
@@ -375,10 +391,29 @@
             grpStatistics.Margin = new Padding(3, 2, 3, 2);
             grpStatistics.Name = "grpStatistics";
             grpStatistics.Padding = new Padding(3, 2, 3, 2);
-            grpStatistics.Size = new Size(604, 84);
+            grpStatistics.Size = new Size(604, 103);
             grpStatistics.TabIndex = 10;
             grpStatistics.TabStop = false;
             grpStatistics.Text = "Statistiques";
+            grpStatistics.Enter += grpStatistics_Enter;
+            // 
+            // lblHiddenIgnored
+            // 
+            lblHiddenIgnored.AutoSize = true;
+            lblHiddenIgnored.Location = new Point(14, 70);
+            lblHiddenIgnored.Name = "lblHiddenIgnored";
+            lblHiddenIgnored.Size = new Size(83, 15);
+            lblHiddenIgnored.TabIndex = 24;
+            lblHiddenIgnored.Text = "Jeux cachés : 0";
+            // 
+            // lblMultiDiskIgnored
+            // 
+            lblMultiDiskIgnored.AutoSize = true;
+            lblMultiDiskIgnored.Location = new Point(162, 70);
+            lblMultiDiskIgnored.Name = "lblMultiDiskIgnored";
+            lblMultiDiskIgnored.Size = new Size(114, 15);
+            lblMultiDiskIgnored.TabIndex = 23;
+            lblMultiDiskIgnored.Text = "MultiDisk ignorés : 0";
             // 
             // label1
             // 
@@ -389,34 +424,31 @@
             label1.TabIndex = 22;
             label1.Text = "Prêt";
             label1.Visible = false;
-            // Overlay Drag & Drop
-
-            pnlDropOverlay.Dock = DockStyle.Fill;
-            pnlDropOverlay.BackColor = Color.FromArgb(60, Color.DeepSkyBlue);
-            pnlDropOverlay.Visible = false;
-
-            lblDropOverlay.Dock = DockStyle.Fill;
-            lblDropOverlay.TextAlign = ContentAlignment.MiddleCenter;
-
-            lblDropOverlay.Font = new Font(
-                "Segoe UI",
-                18F,
-                FontStyle.Bold);
-
-            lblDropOverlay.Text =
-                "📁\n\nDéposez ici votre dossier de ROMs\n\nou un fichier GameList.xml";
-
-            pnlDropOverlay.Controls.Add(lblDropOverlay);
-
-            Controls.Add(pnlDropOverlay);
-            pnlDropOverlay.BringToFront();
-
+            // 
+            // txtSearchXml
+            // 
+            txtSearchXml.Location = new Point(135, 290);
+            txtSearchXml.Name = "txtSearchXml";
+            txtSearchXml.PlaceholderText = "🔍 Rechercher...";
+            txtSearchXml.Size = new Size(176, 23);
+            txtSearchXml.TabIndex = 21;
+            // 
+            // txtSearchDisk
+            // 
+            txtSearchDisk.Location = new Point(452, 289);
+            txtSearchDisk.Name = "txtSearchDisk";
+            txtSearchDisk.PlaceholderText = "🔍 Rechercher...";
+            txtSearchDisk.Size = new Size(165, 23);
+            txtSearchDisk.TabIndex = 22;
+            txtSearchDisk.TextChanged += textBox2_TextChanged;
             // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(634, 553);
+            Controls.Add(txtSearchDisk);
+            Controls.Add(txtSearchXml);
             Controls.Add(menuStrip1);
             Controls.Add(lblRomFolder);
             Controls.Add(txtRomFolder);
@@ -452,8 +484,6 @@
 
         #endregion
 
-        private Panel pnlDropOverlay; 
-        private Label lblDropOverlay;
         private Label lblRomFolder;
         private TextBox txtRomFolder;
         private Button btnBrowseRomFolder;
@@ -493,5 +523,10 @@
         private Label lblDiskCount;
         private ProgressBar progressBar;
         private GroupBox grpStatistics;
+        private TextBox txtSearchXml;
+        private TextBox txtSearchDisk;
+        private ToolStripMenuItem mnuCheckUpdates;
+        private Label lblHiddenIgnored;
+        private Label lblMultiDiskIgnored;
     }
 }

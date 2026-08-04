@@ -2,17 +2,86 @@
 
 All notable changes to this project will be documented in this file.
 
-The format is inspired by **Keep a Changelog** and follows **Semantic Versioning**.
+This project follows **Semantic Versioning** and is inspired by the **Keep a Changelog** format.
 
 ---
 
-## [1.0.0] - 2026-08-02
+# [1.5.0] - 2026-08-04
 
-### 🎉 Initial public release
+## 🎉 Major Update
+
+This release significantly improves the comparison engine to better match the behavior of RetroBat and EmulationStation.
+
+The application now correctly handles hidden games and multidisc collections while providing more accurate platform statistics.
+
+---
+
+## ✨ Added
+
+### Comparison Engine
+
+- Added support for Hidden games (`<hidden>`)
+- Added support for MultiDisk entries (`<multidisk>`)
+- Added accurate platform game counting
+- Added ignored MultiDisk statistics
+- Added ignored Hidden games statistics
+
+### User Interface
+
+- New platform statistics display
+- Advanced extension selector
+- Extension search
+- Extension counter
+- ESC shortcut clears the search field
+- Automatic focus on the search box
+- Improved statistics layout
+
+### Reports
+
+- Improved TXT export
+- Improved CSV export
+- Better platform statistics inside exported reports
+
+---
+
+## 🚀 Improved
+
+### Comparison
+
+- More accurate ROM comparison
+- Better path normalization
+- Improved recursive scanning
+- Better MultiDisk handling
+- Better Hidden game handling
+
+### User Experience
+
+- Cleaner statistics
+- Better extension management
+- Improved navigation
+- Faster comparison
+- Better overall responsiveness
+
+---
+
+## 🛠 Fixed
+
+- Fixed incorrect platform game count
+- Fixed MultiDisk child file comparison
+- Fixed Hidden games being counted
+- Fixed several comparison edge cases
+- Fixed statistics consistency
+- Improved export formatting
+
+---
+
+# [1.0.0] - 2026-08-02
+
+## 🎉 Initial Public Release
 
 ### Added
 
-- Compare a RetroBat ROM folder with its corresponding `gamelist.xml`
+- Compare RetroBat ROM folders with their corresponding `gamelist.xml`
 - Detect ROMs missing from the XML
 - Detect XML entries missing from disk
 - Recursive folder scanning
@@ -23,23 +92,17 @@ The format is inspired by **Keep a Changelog** and follows **Semantic Versioning
 - CSV export
 - Drag & Drop support
 - Automatic detection of `gamelist.xml`
-- Smart **Compare** button (enabled only when all required information is valid)
-- Progress bar during comparison
+- Smart Compare button
+- Progress bar
 - Sortable result lists
 - Result counters
-- Double-click to open ROM location in Windows Explorer
-- Modern About dialog
-- GitHub link from the application
-
-### Improved
-
-- Cleaner and more intuitive user interface
-- Better workflow for comparing ROM collections
-- Faster navigation and easier project maintenance
+- Double-click to open ROM folders
+- About dialog
+- GitHub link
 
 ### Technical
 
-- Built with **C#**
-- **.NET 8**
+- Built with C#
+- .NET 8
 - Windows Forms
-- Modular architecture with dedicated services
+- Modular service-based architecture
