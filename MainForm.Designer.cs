@@ -41,6 +41,10 @@
             mnuFile = new ToolStripMenuItem();
             mnuExit = new ToolStripMenuItem();
             mnuHelp = new ToolStripMenuItem();
+            mnuLanguage = new ToolStripMenuItem();
+
+            mnuEnglish = new ToolStripMenuItem();
+            mnuFrench = new ToolStripMenuItem();
             mnuGitHub = new ToolStripMenuItem();
             toolStripSeparator1 = new ToolStripSeparator();
             mnuAbout = new ToolStripMenuItem();
@@ -89,6 +93,33 @@
             btnBrowseRomFolder.TabIndex = 2;
             btnBrowseRomFolder.Text = "...";
             btnBrowseRomFolder.Click += btnBrowseRomFolder_Click;
+            //
+            // mnuLanguage
+            //
+            mnuLanguage.DropDownItems.AddRange(new ToolStripItem[]
+            {
+            mnuEnglish,
+            mnuFrench
+            });
+
+            mnuLanguage.Name = "mnuLanguage";
+            mnuLanguage.Size = new Size(82, 24);
+            mnuLanguage.Text = "Language";
+
+            //
+            // mnuEnglish
+            //
+            mnuEnglish.Name = "mnuEnglish";
+            mnuEnglish.Text = "English";
+
+            //
+            // mnuFrench
+            //
+            mnuFrench.Name = "mnuFrench";
+            mnuFrench.Text = "Français";
+            
+            mnuEnglish.Click += mnuEnglish_Click;
+            mnuFrench.Click += mnuFrench_Click;
             // 
             // lblGameList
             // 
@@ -253,7 +284,12 @@
             // 
             // menuStrip1
             // 
-            menuStrip1.Items.AddRange(new ToolStripItem[] { mnuFile, mnuHelp });
+            menuStrip1.Items.AddRange(new ToolStripItem[]
+{
+    mnuFile,
+    mnuLanguage,
+    mnuHelp
+});
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
             menuStrip1.Size = new Size(634, 24);
@@ -507,6 +543,11 @@
         private Button btnExportCsv;
         private Label lblHint;
         private MenuStrip menuStrip1;
+
+        private ToolStripMenuItem mnuLanguage;
+        private ToolStripMenuItem mnuEnglish;
+        private ToolStripMenuItem mnuFrench;
+
 
         private ToolStripMenuItem mnuFile;
         private ToolStripMenuItem mnuExit;

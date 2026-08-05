@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using RetroBatGameListComparator.Localization;
+using System.Text;
 using System.Text.Json;
 using System.Xml.Linq;
 
@@ -48,7 +49,7 @@ public class GameListDiagnosticService
             if (pathElement == null)
             {
                 gamesWithoutPath++;
-                suspicious.Add("<game> sans <path>");
+                suspicious.Add(L.GameWithoutPath);
                 continue;
             }
 
@@ -60,7 +61,7 @@ public class GameListDiagnosticService
             if (string.IsNullOrWhiteSpace(relativePath))
             {
                 gamesWithoutPath++;
-                suspicious.Add("<path> vide");
+                suspicious.Add(L.EmptyPath);
                 continue;
             }
 
@@ -176,7 +177,9 @@ public class GameListDiagnosticService
                 catch
                 {
                     suspicious.Add(
-                        $"JSON multidisk invalide : {relativePath}");
+    string.Format(
+        L.InvalidMultiDiskJson,
+        relativePath));
                 }
             }
         }
@@ -198,33 +201,33 @@ public class GameListDiagnosticService
         StringBuilder sb = new();
 
         sb.AppendLine("==============================================");
-        sb.AppendLine("          GameList Diagnostic");
+        sb.AppendLine($"          {L.DiagnosticTitle}");
         sb.AppendLine("==============================================");
         sb.AppendLine();
 
-        sb.AppendLine($"Total <game>              : {totalGames}");
-        sb.AppendLine($"Jeux visibles             : {visibleGames}");
-        sb.AppendLine($"Jeux cachés               : {hiddenGames}");
+        sb.AppendLine(string.Format(L.TotalGames, totalGames));
+        sb.AppendLine(string.Format(L.VisibleGames, visibleGames));
+        sb.AppendLine(string.Format(L.HiddenGames, hiddenGames));
         sb.AppendLine();
 
-        sb.AppendLine($"Jeux .chd                 : {chdCount}");
-        sb.AppendLine($"Jeux .m3u                 : {m3uCount}");
-        sb.AppendLine($"Jeux .cue                 : {cueCount}");
-        sb.AppendLine($"Jeux .iso                 : {isoCount}");
-        sb.AppendLine($"Autres extensions         : {otherExtensions}");
+        sb.AppendLine(string.Format(L.ChdGames, chdCount));
+        sb.AppendLine(string.Format(L.M3uGames, m3uCount));
+        sb.AppendLine(string.Format(L.CueGames, cueCount));
+        sb.AppendLine(string.Format(L.IsoGames, isoCount));
+        sb.AppendLine(string.Format(L.OtherExtensions, otherExtensions));
         sb.AppendLine();
 
-        sb.AppendLine($"Jeux MultiDisk            : {multiDiskGames}");
-        sb.AppendLine($"Fichiers MultiDisk        : {multiDiskFiles}");
+        sb.AppendLine(string.Format(L.MultiDiskGames, multiDiskGames));
+        sb.AppendLine(string.Format(L.MultiDiskFiles, multiDiskFiles));
         sb.AppendLine();
 
-        sb.AppendLine($"Doublons de <path>        : {duplicatePaths.Count}");
-        sb.AppendLine($"Jeux sans <path>          : {gamesWithoutPath}");
-        sb.AppendLine($"Jeux sans <name>          : {gamesWithoutName}");
+        sb.AppendLine(string.Format(L.DuplicatePathCount, duplicatePaths.Count));
+        sb.AppendLine(string.Format(L.GamesWithoutPath, gamesWithoutPath));
+        sb.AppendLine(string.Format(L.GamesWithoutName, gamesWithoutName));
         sb.AppendLine();
 
         sb.AppendLine("----------------------------------------------");
-        sb.AppendLine("Répartition des extensions");
+        sb.AppendLine(L.ExtensionDistribution);
         sb.AppendLine("----------------------------------------------");
 
         foreach (var ext in extensionCounter.OrderBy(x => x.Key))
@@ -237,7 +240,7 @@ public class GameListDiagnosticService
         if (duplicatePaths.Any())
         {
             sb.AppendLine("----------------------------------------------");
-            sb.AppendLine("Doublons");
+            sb.AppendLine(L.DuplicatePaths);
             sb.AppendLine("----------------------------------------------");
 
             foreach (string path in duplicatePaths)
@@ -249,7 +252,7 @@ public class GameListDiagnosticService
         if (suspicious.Any())
         {
             sb.AppendLine("----------------------------------------------");
-            sb.AppendLine("Entrées suspectes");
+            sb.AppendLine(L.SuspiciousEntries);
             sb.AppendLine("----------------------------------------------");
 
             foreach (string s in suspicious.Distinct())

@@ -1,4 +1,5 @@
-﻿using RetroBatGameListComparator.Models;
+﻿using RetroBatGameListComparator.Localization;
+using RetroBatGameListComparator.Models;
 using System.Text;
 
 namespace RetroBatGameListComparator.Services;
@@ -15,71 +16,79 @@ public class ExportService
         StringBuilder sb = new();
 
         sb.AppendLine("==============================================================");
-        sb.AppendLine("              RetroBat GameList Comparator");
-        sb.AppendLine("==============================================================");
+		sb.AppendLine($"              {L.ExportTitle}");
+		sb.AppendLine("==============================================================");
         sb.AppendLine();
 
-        sb.AppendLine($"Date : {DateTime.Now:dd/MM/yyyy HH:mm:ss}");
-        sb.AppendLine();
+		sb.AppendLine(string.Format(
+	L.ExportDate,
+	DateTime.Now.ToString("dd/MM/yyyy HH:mm:ss")));
+		sb.AppendLine();
 
-        sb.AppendLine($"Dossier ROMs : {romFolder}");
-        sb.AppendLine($"GameList     : {gameListFile}");
-        sb.AppendLine($"Extension    : {extension}");
+		sb.AppendLine(string.Format(
+	L.ExportRomFolder,
+	romFolder));
+		sb.AppendLine(string.Format(
+	L.ExportGameList,
+	gameListFile));
+		sb.AppendLine(string.Format(
+	L.ExportExtension,
+	extension));
 
-        sb.AppendLine();
+		sb.AppendLine();
         sb.AppendLine("--------------------------------------------------------------");
         sb.AppendLine();
 
-        sb.AppendLine($"ROMs comparées     : {result.ComparedCount}");
-        sb.AppendLine($"Entrées XML        : {result.XmlCount}");
-        sb.AppendLine($"Correspondances    : {result.MatchingCount}");
-        sb.AppendLine($"MultiDisk ignorés  : {result.MultiDiskIgnoredCount}");
-        sb.AppendLine($"Jeux cachés        : {result.HiddenIgnoredCount}");
-        sb.AppendLine($"Absentes XML       : {result.MissingFromXml.Count}");
-        sb.AppendLine($"Absentes disque    : {result.MissingFromDisk.Count}");
+		sb.AppendLine(string.Format(L.ComparedRoms, result.ComparedCount));
+		sb.AppendLine(string.Format(L.XmlEntries, result.XmlCount));
+		sb.AppendLine(string.Format(L.Matches, result.MatchingCount));
+		sb.AppendLine(string.Format(L.IgnoredMultiDisk, result.MultiDiskIgnoredCount));
+		sb.AppendLine(string.Format(L.HiddenGames, result.HiddenIgnoredCount));
+		sb.AppendLine(string.Format(L.MissingXml, result.MissingFromXml.Count));
+		sb.AppendLine(string.Format(L.MissingDisk, result.MissingFromDisk.Count));
 
-        sb.AppendLine();
+		sb.AppendLine();
         sb.AppendLine("==============================================================");
-        sb.AppendLine("ROMs absentes du XML");
+        sb.AppendLine(L.MissingXmlSection);
         sb.AppendLine("==============================================================");
         sb.AppendLine();
 
         foreach (RomEntry rom in result.MissingFromXml.OrderBy(x => x.FileName))
         {
-            sb.AppendLine($"ROM : {rom.FileName}");
+			sb.AppendLine(string.Format(L.Rom, rom.FileName));
 
-            string folder = Path.GetDirectoryName(rom.RelativePath) ?? "";
+			string folder = Path.GetDirectoryName(rom.RelativePath) ?? "";
 
             if (!string.IsNullOrWhiteSpace(folder))
-                sb.AppendLine($"Dossier : {folder}");
+				sb.AppendLine(string.Format(L.Folder, folder));
 
-            sb.AppendLine(new string('-', 55));
-        }
+			sb.AppendLine(L.Separator);
+		}
 
         sb.AppendLine();
         sb.AppendLine("==============================================================");
-        sb.AppendLine("ROMs absentes du disque");
+        sb.AppendLine(L.MissingDiskSection);
         sb.AppendLine("==============================================================");
         sb.AppendLine();
 
-        sb.AppendLine($"Total : {result.MissingFromDisk.Count}");
-        sb.AppendLine();
+		sb.AppendLine(string.Format(L.Total, result.MissingFromDisk.Count));
+		sb.AppendLine();
 
         foreach (RomEntry rom in result.MissingFromDisk.OrderBy(x => x.FileName))
         {
-            sb.AppendLine($"ROM : {rom.FileName}");
+			sb.AppendLine(string.Format(L.Rom, rom.FileName));
 
-            string folder = Path.GetDirectoryName(rom.RelativePath) ?? "";
+			string folder = Path.GetDirectoryName(rom.RelativePath) ?? "";
 
             if (!string.IsNullOrWhiteSpace(folder))
-                sb.AppendLine($"Dossier : {folder}");
+				sb.AppendLine(string.Format(L.Folder, folder));
 
-            sb.AppendLine(new string('-', 55));
-        }
+			sb.AppendLine(L.Separator);
+		}
 
         sb.AppendLine();
         sb.AppendLine("==============================================================");
-        sb.AppendLine("Liste complète des ROMs");
+        sb.AppendLine(L.AllRomsSection);
         sb.AppendLine("==============================================================");
         sb.AppendLine();
 
@@ -88,15 +97,15 @@ public class ExportService
             string folder = Path.GetDirectoryName(rom.RelativePath);
 
             if (string.IsNullOrWhiteSpace(folder))
-                folder = "[racine]";
+				folder = L.RootFolder;
 
-            sb.AppendLine($"{rom.FileName,-70} {folder}");
+			sb.AppendLine($"{rom.FileName,-70} {folder}");
         }
 
         sb.AppendLine();
-        sb.AppendLine($"Total : {result.AllDiskRoms.Count}");
+		sb.AppendLine(string.Format(L.Total, result.AllDiskRoms.Count));
 
-        File.WriteAllText(fileName, sb.ToString(), Encoding.UTF8);
+		File.WriteAllText(fileName, sb.ToString(), Encoding.UTF8);
     }
 
     public void ExportCsv(
@@ -105,27 +114,28 @@ public class ExportService
     {
         using StreamWriter writer = new(fileName, false, Encoding.UTF8);
 
-        writer.WriteLine("Etat;Nom;Extension;Dossier");
+		writer.WriteLine(
+	 $"{L.CsvState};{L.CsvName};{L.CsvExtension};{L.CsvFolder}");
 
-        foreach (RomEntry rom in result.AllDiskRoms)
+		foreach (RomEntry rom in result.AllDiskRoms)
         {
-            string state = "OK";
+			string state = L.CsvOk;
 
-            if (result.MissingFromXml.Any(x =>
+			if (result.MissingFromXml.Any(x =>
                 x.FileName.Equals(
                     rom.FileName,
                     StringComparison.OrdinalIgnoreCase)))
             {
-                state = "Absente XML";
-            }
+				state = L.CsvMissingXml;
+			}
 
             writer.WriteLine(CreateCsvLine(state, rom));
         }
 
         foreach (RomEntry rom in result.MissingFromDisk)
         {
-            writer.WriteLine(CreateCsvLine("Absente disque", rom));
-        }
+			writer.WriteLine(CreateCsvLine(L.CsvMissingDisk, rom));
+		}
     }
 
     private static string CreateCsvLine(
@@ -142,9 +152,9 @@ public class ExportService
             Path.GetDirectoryName(rom.RelativePath);
 
         if (string.IsNullOrWhiteSpace(folder))
-            folder = "[racine]";
+			folder = L.RootFolder;
 
-        return string.Join(";",
+		return string.Join(";",
             state,
             Escape(name),
             Escape(extension),

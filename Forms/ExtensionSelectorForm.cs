@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RetroBatGameListComparator.Localization;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
@@ -19,8 +20,11 @@ public partial class ExtensionSelectorForm : Form
         IEnumerable<string> selectedExtensions)
     {
         InitializeComponent();
+        ApplyLocalization();
 
         _allExtensions.AddRange(allExtensions.OrderBy(x => x));
+
+        LocalizationService.LanguageChanged += OnLanguageChanged;
 
         foreach (string extension in selectedExtensions)
         {
@@ -28,6 +32,18 @@ public partial class ExtensionSelectorForm : Form
         }
 
         RefreshList();
+    }
+
+    private void OnLanguageChanged(object? sender, EventArgs e)
+    {
+        ApplyLocalization();
+    }
+
+    protected override void OnFormClosed(FormClosedEventArgs e)
+    {
+        LocalizationService.LanguageChanged -= OnLanguageChanged;
+
+        base.OnFormClosed(e);
     }
 
     protected override void OnShown(EventArgs e)
@@ -58,6 +74,20 @@ public partial class ExtensionSelectorForm : Form
         }
 
         return base.ProcessCmdKey(ref msg, keyData);
+    }
+
+    private void ApplyLocalization()
+    {
+        Text = L.ExtensionSelectorTitle;
+
+        lblSearch.Text = L.SearchLabel;
+
+        colExtension.Text = L.ExtensionColumn;
+
+        btnSelectAll.Text = L.SelectAll;
+        btnClearAll.Text = L.ClearAll;
+
+        btnCancel.Text = L.Cancel;
     }
 
     private void txtSearch_TextChanged(
@@ -98,7 +128,9 @@ public partial class ExtensionSelectorForm : Form
     private void UpdateCounter()
     {
         lblCount.Text =
-            $"{_selected.Count} extension(s) sélectionnée(s)";
+    string.Format(
+        L.SelectedExtensions,
+        _selected.Count);
     }
 
     private void btnOK_Click(object sender, EventArgs e)

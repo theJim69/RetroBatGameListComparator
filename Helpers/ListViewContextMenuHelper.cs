@@ -1,4 +1,5 @@
-﻿using RetroBatGameListComparator.Models;
+﻿using RetroBatGameListComparator.Localization;
+using RetroBatGameListComparator.Models;
 using System.Diagnostics;
 using System.Windows.Forms;
 
@@ -15,13 +16,13 @@ public static class ListViewContextMenuHelper
         ContextMenuStrip menu = new();
 
         ToolStripMenuItem copyName =
-            new("📋 Copier le nom");
+            new(L.CopyName);
 
         ToolStripMenuItem copyFull =
-            new("📂 Copier le chemin complet");
+            new(L.CopyFullPath);
 
         ToolStripMenuItem openFolder =
-            new("📂 Ouvrir le dossier");
+            new(L.OpenFolder);
 
         menu.Items.Add(copyName);
         menu.Items.Add(copyFull);

@@ -1,17 +1,24 @@
-namespace RetroBatGameListComparator
+using RetroBatGameListComparator.Localization;
+
+namespace RetroBatGameListComparator;
+
+internal static class Program
 {
-    internal static class Program
+    [STAThread]
+    static void Main()
     {
-        /// <summary>
-        ///  The main entry point for the application.
-        /// </summary>
-        [STAThread]
-        static void Main()
+        ApplicationConfiguration.Initialize();
+
+        // Anglais par défaut
+        if (Properties.Settings.Default.Language == "French")
         {
-            // To customize application configuration such as set high DPI settings or default font,
-            // see https://aka.ms/applicationconfiguration.
-            ApplicationConfiguration.Initialize();
-            Application.Run(new MainForm());
+            LocalizationService.SetLanguage(French.Strings);
         }
+        else
+        {
+            LocalizationService.SetLanguage(English.Strings);
+        }
+
+        Application.Run(new MainForm());
     }
 }

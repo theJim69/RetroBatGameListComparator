@@ -1,6 +1,7 @@
-﻿using RetroBatGameListComparator.Models;
-using System.Diagnostics;
+﻿using RetroBatGameListComparator.Localization;
+using RetroBatGameListComparator.Models;
 using RetroBatGameListComparator.Services;
+using System.Diagnostics;
 
 namespace RetroBatGameListComparator.Forms;
 
@@ -16,6 +17,15 @@ public partial class UpdateForm : Form
 
     private bool _downloadInProgress;
 
+    private enum CancelButtonMode
+    {
+        Cancel,
+        OpenFolder,
+        Close
+    }
+
+    private CancelButtonMode _cancelMode = CancelButtonMode.Cancel;
+
     public bool DownloadRequested { get; private set; }
 
     public string DownloadUrl => _asset.DownloadUrl;
@@ -29,6 +39,10 @@ public partial class UpdateForm : Form
     {
         InitializeComponent();
 
+        ApplyLocalization();
+
+        LocalizationService.LanguageChanged += OnLanguageChanged;
+
         // Partie téléchargement masquée au démarrage
         lblStatus.Visible = false;
         progressBarDownload.Visible = false;
@@ -39,22 +53,54 @@ public partial class UpdateForm : Form
         _asset = asset;
 
         lblCurrentVersion.Text =
-    $"Version installée : {currentVersion.ToString(3)}";
+    string.Format(
+        L.CurrentVersionLabel,
+        currentVersion.ToString(3));
 
         lblLatestVersion.Text =
-    $"Nouvelle version : {release.TagName.TrimStart('v', 'V')}";
+    string.Format(
+        L.LatestVersionLabel,
+        release.TagName.TrimStart('v', 'V'));
 
         lblFileName.Text =
-            $"Fichier :\n{asset.Name}";
-
+    string.Format(
+        L.File,
+        asset.Name);
+        
         lblFileSize.Text =
-            $"Taille : {asset.Size / 1024d / 1024d:0.00} MB";
+            string.Format(
+                L.Size,
+                asset.Size / 1024d / 1024d);
 
         // Association des événements
         btnDownload.Click += btnDownload_Click;
         btnGitHub.Click += btnGitHub_Click;
         btnLater.Click += btnLater_Click;
         btnCancel.Click += btnCancel_Click;
+    }
+
+    private void OnLanguageChanged(object? sender, EventArgs e)
+    {
+        ApplyLocalization();
+    }
+
+    protected override void OnFormClosed(FormClosedEventArgs e)
+    {
+        LocalizationService.LanguageChanged -= OnLanguageChanged;
+
+        base.OnFormClosed(e);
+    }
+    private void ApplyLocalization()
+    {
+        Text = L.UpdateAvailableTitle;
+
+        lblTitle.Text = L.NewVersionAvailable;
+
+        btnDownload.Text = L.Download;
+        btnGitHub.Text = L.OpenGitHub;
+        btnLater.Text = L.Later;
+        btnCancel.Text = L.Cancel;
+        _cancelMode = CancelButtonMode.Cancel;
     }
 
     private async void btnDownload_Click(object sender, EventArgs e)
@@ -69,7 +115,7 @@ public partial class UpdateForm : Form
 
         btnCancel.Visible = true;
         btnCancel.Enabled = true;
-        btnCancel.Text = "Annuler";
+        btnCancel.Text = L.Cancel;
 
         lblStatus.Visible = true;
         progressBarDownload.Visible = true;
@@ -77,7 +123,7 @@ public partial class UpdateForm : Form
 
         progressBarDownload.Value = 0;
         lblProgress.Text = "0 %";
-        lblStatus.Text = "Préparation du téléchargement...";
+        lblStatus.Text = L.PreparingDownload;
 
         _cts = new CancellationTokenSource();
 
@@ -109,9 +155,10 @@ public partial class UpdateForm : Form
 
             lblProgress.Text = "100 %";
 
-            lblStatus.Text = "Téléchargement terminé.";
+            lblStatus.Text = L.DownloadCompleted;
 
-            btnCancel.Text = "Ouvrir le dossier";
+            btnCancel.Text = L.OpenFolder;
+            _cancelMode = CancelButtonMode.OpenFolder;
             btnCancel.Enabled = true;
         }
         catch (OperationCanceledException)
@@ -122,9 +169,10 @@ public partial class UpdateForm : Form
 
             lblProgress.Text = "0 %";
 
-            lblStatus.Text = "Téléchargement annulé.";
+            lblStatus.Text = L.DownloadCancelled;
 
-            btnCancel.Text = "Fermer";
+            btnCancel.Text = L.Close;
+            _cancelMode = CancelButtonMode.Close;
             btnCancel.Enabled = true;
 
             if (!string.IsNullOrWhiteSpace(_downloadedFile) &&
@@ -143,9 +191,9 @@ public partial class UpdateForm : Form
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Error);
 
-            lblStatus.Text = "Une erreur est survenue.";
+            lblStatus.Text = L.DownloadError;
 
-            btnCancel.Text = "Fermer";
+            btnCancel.Text = L.Close;
             btnCancel.Enabled = true;
         }
     }
@@ -162,29 +210,31 @@ public partial class UpdateForm : Form
 
     private void btnCancel_Click(object sender, EventArgs e)
     {
-        if (btnCancel.Text == "Annuler")
+        switch (_cancelMode)
         {
-            _cts?.Cancel();
-            return;
-        }
+            case CancelButtonMode.Cancel:
+                _cts?.Cancel();
+                return;
 
-        if (btnCancel.Text == "Ouvrir le dossier")
-        {
-            if (!string.IsNullOrWhiteSpace(_downloadedFile))
-            {
-                Process.Start(new ProcessStartInfo
+            case CancelButtonMode.OpenFolder:
+
+                if (!string.IsNullOrWhiteSpace(_downloadedFile))
                 {
-                    FileName = "explorer.exe",
-                    Arguments = $"/select,\"{_downloadedFile}\"",
-                    UseShellExecute = true
-                });
-            }
+                    Process.Start(new ProcessStartInfo
+                    {
+                        FileName = "explorer.exe",
+                        Arguments = $"/select,\"{_downloadedFile}\"",
+                        UseShellExecute = true
+                    });
+                }
 
-            Close();
-            return;
+                Close();
+                return;
+
+            case CancelButtonMode.Close:
+                Close();
+                return;
         }
-
-        Close();
     }
 
     private void btnLater_Click(object sender, EventArgs e)
@@ -203,8 +253,8 @@ public partial class UpdateForm : Form
 
         DialogResult result =
             MessageBox.Show(
-                "Le téléchargement est encore en cours.\n\nVoulez-vous vraiment l'annuler ?",
-                "Annuler le téléchargement",
+    L.DownloadRunning,
+    L.CancelDownloadTitle,
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Question);
 
