@@ -10,19 +10,7 @@ This project follows **Semantic Versioning** and is inspired by the **Keep a Cha
 
 ## Planned
 
-### Version 1.5.1
-
-#### Added
-
-- Complete English localization
-- Language resources
-- English documentation review
-
----
-
 ### Version 1.5.2
-
-#### Added
 
 - Complete Spanish localization
 - Spanish documentation
@@ -43,6 +31,38 @@ This project follows **Semantic Versioning** and is inspired by the **Keep a Cha
 - Missing manuals detection
 - Invalid MultiDisk detection
 - Automatic repair suggestions
+
+
+
+# [1.5.1] - 2026-08-05
+
+### Added
+
+- Complete English localization
+- Dynamic language switching
+- Automatic language detection
+- Persistent user language selection
+- Language menu
+- Live localization of all windows
+
+### Improved
+
+- About dialog
+- Update dialog
+- Extension selector
+- Diagnostic reports
+- TXT export
+- CSV export
+- Context menus
+- Internal localization architecture
+
+### Technical
+
+- New LocalizationService
+- Strongly typed localization (L.cs)
+- LanguageChanged event
+- Runtime UI refresh
+
 
 # [1.5.0] - 2026-08-04
 

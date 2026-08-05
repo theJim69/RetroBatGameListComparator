@@ -6,37 +6,11 @@ The roadmap is subject to change according to user feedback and future ideas.
 
 ---
 
-# Version 1.5.1
-
-🇬🇧 English Localization
-
-### Goals
-
-- Translate the complete interface
-- Translate dialogs
-- Translate MessageBox texts
-- Translate TXT export
-- Translate CSV export
-- Prepare localization resources
-
----
-
-# Version 1.5.2
-
-🇪🇸 Spanish Localization
-
-### Goals
-
-- Complete Spanish translation
-- Review exported reports
-- Review terminology
-- Improve localization support
-
----
-
 # Version 1.6.0
 
-🔍 GameList Inspector
+## 🔍 GameList Inspector
+
+A complete analysis tool for validating RetroBat GameLists.
 
 ### Planned Features
 
@@ -50,9 +24,7 @@ The roadmap is subject to change according to user feedback and future ideas.
 - XML consistency checker
 - Repair suggestions
 
----
-
-## User Interface
+### User Interface
 
 - Improved status bar
 - Better progress reporting
@@ -61,13 +33,24 @@ The roadmap is subject to change according to user feedback and future ideas.
 
 ---
 
-# Version 1.7
+# Version 1.7.0
+
+## 🇪🇸 Spanish Localization
+
+### Goals
+
+- Complete Spanish translation
+- Review exported reports
+- Review terminology
+- Improve localization support
+
+---
 
 ## XML Tools
 
 Utilities dedicated to maintaining GameLists.
 
-Planned features:
+### Planned Features
 
 - XML cleanup
 - Remove duplicate entries
@@ -85,13 +68,13 @@ Planned features:
 
 ---
 
-# Version 2.0
+# Version 2.0.0
 
-## GameList Editor
+## 🎮 GameList Editor
 
 Complete visual editor for RetroBat GameLists.
 
-Features under consideration:
+### Features under consideration
 
 - Edit metadata
 - Edit descriptions
@@ -103,7 +86,7 @@ Features under consideration:
 
 ---
 
-## Automatic Synchronization
+## 🔄 Automatic Synchronization
 
 Compare and synchronize:
 
@@ -116,7 +99,7 @@ Compare and synchronize:
 
 ---
 
-## Repair Wizard
+## 🛠 Repair Wizard
 
 Automatic correction of common GameList problems.
 
@@ -163,7 +146,7 @@ Possible future features.
 
 - Dark mode
 - Custom themes
-- Localization
+- Additional localizations
 - Portable settings
 - Automatic update checker
 
@@ -179,7 +162,7 @@ If you have an idea that could improve the project, please open an Issue on GitH
 
 # Current Focus
 
-The immediate objective is to make RetroBat GameList Comparator the reference tool for validating and maintaining RetroBat GameLists.
+The immediate objective is to make **RetroBat GameList Comparator** the reference tool for validating and maintaining RetroBat GameLists.
 
 Current priorities are:
 
@@ -188,5 +171,6 @@ Current priorities are:
 - Ease of use
 - Accurate comparison
 - Clear reporting
+- Maintainable architecture
 
 Quality and stability always have priority over adding new features.
