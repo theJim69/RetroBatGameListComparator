@@ -3,6 +3,7 @@
 All notable changes to this project will be documented in this file.
 
 This project follows **Semantic Versioning** and is inspired by the **Keep a Changelog** format.
+Releases are listed from newest to oldest.
 
 ---
 
@@ -10,29 +11,43 @@ This project follows **Semantic Versioning** and is inspired by the **Keep a Cha
 
 ## Planned
 
-### Version 1.5.2
+Future development currently focuses on:
 
-- Complete Spanish localization
-- Spanish documentation
-- Localization improvements
+- Documentation improvements
+- Release validation process
+- GameList management
+- Advanced diagnostics
+- XML maintenance tools
+- Batch operations
 
 ---
 
-### Version 1.6.0
+# [1.5.2] - 2026-08-05
 
-#### Planned
+### Added
 
-- GameList Inspector
-- Duplicate `<path>` detection
-- Duplicate games detection
-- XML consistency checker
-- Missing images detection
-- Missing videos detection
-- Missing manuals detection
-- Invalid MultiDisk detection
-- Automatic repair suggestions
+- Complete Spanish localization
+- Spanish language selection
+- Runtime Spanish language switching
 
+### Improved
 
+- Localized About dialog
+- Localized Update dialog
+- Localized Extension Selector
+- Localized Diagnostic report
+- Localized TXT export
+- Localized CSV export
+- Improved multilingual support
+- Improved localization consistency
+
+### Technical
+
+- Added Spanish localization resources
+- Extended localization architecture
+- Improved language management
+
+---
 
 # [1.5.1] - 2026-08-05
 

@@ -46,6 +46,8 @@ Please try to keep them:
 
 Each Pull Request should address a single feature or bug whenever possible.
 
+Please avoid mixing refactoring, new features and bug fixes in the same Pull Request.
+
 ---
 
 # Coding Guidelines
@@ -63,6 +65,21 @@ The project is organized using dedicated service classes whenever possible.
 
 ---
 
+# 🌍 Localization
+
+The application supports multiple languages.
+
+When adding or modifying user-visible text:
+
+- Keep all localization files synchronized.
+- Use clear and concise wording.
+- Preserve the same terminology across all languages.
+- Avoid hardcoded strings inside the application.
+
+All user-visible text should be localized whenever possible.
+
+---
+
 # Comparison Engine
 
 The comparison engine is the core of the application.
@@ -77,6 +94,21 @@ Please read **COMPARISON_RULES.md** before modifying the comparison engine.
 
 ---
 
+# 📚 Documentation
+
+Documentation is an important part of the project.
+
+When introducing new features, please update the relevant documentation:
+
+- README.md
+- CHANGELOG.md
+- ROADMAP.md
+- COMPARISON_RULES.md
+
+Documentation should remain consistent with the current release.
+
+---
+
 # Development Environment
 
 Current development environment:
@@ -85,6 +117,8 @@ Current development environment:
 - .NET 8
 - Windows Forms
 - C#
+- Git
+- GitHub
 
 ---
 
@@ -98,6 +132,9 @@ Before submitting changes, verify that:
 - Hidden games are ignored.
 - MultiDisk games are ignored.
 - Platform statistics remain correct.
+- Language switching works.
+- Diagnostic report is correct.
+- No untranslated strings remain.
 
 ---
 
@@ -117,4 +154,4 @@ Thank you for supporting RetroBat GameList Comparator!
 
 This project was created to help RetroBat users maintain clean and reliable GameLists.
 
-If it saves you time, then it has achieved its goal.
+If this project helps you maintain cleaner and more reliable RetroBat collections, then it has achieved its goal.
