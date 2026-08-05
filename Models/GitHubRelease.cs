@@ -1,0 +1,24 @@
+﻿using System.Text.Json.Serialization;
+
+namespace RetroBatGameListComparator.Models;
+
+public class GitHubRelease
+{
+    [JsonPropertyName("tag_name")]
+    public string TagName { get; set; } = string.Empty;
+
+    [JsonPropertyName("html_url")]
+    public string HtmlUrl { get; set; } = string.Empty;
+
+    [JsonPropertyName("name")]
+    public string Name { get; set; } = string.Empty;
+
+    [JsonPropertyName("body")]
+    public string Body { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Fichiers publiés dans la Release.
+    /// </summary>
+    [JsonPropertyName("assets")]
+    public List<GitHubAsset> Assets { get; set; } = new();
+}

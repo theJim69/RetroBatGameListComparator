@@ -1,6 +1,11 @@
-﻿using RetroBatGameListComparator.Models;
+﻿using RetroBatGameListComparator.Forms;
+using RetroBatGameListComparator.Helpers;
+using RetroBatGameListComparator.Models;
 using RetroBatGameListComparator.Services;
+using System.Diagnostics;
 using System.Threading;
+using RetroBatGameListComparator.Localization;
+
 
 namespace RetroBatGameListComparator;
 
@@ -12,20 +17,29 @@ public partial class MainForm : Form
     private readonly ComparisonService _comparisonService = new();
     private readonly ExportService _exportService = new();
 
+    private readonly UpdateService _updateService = new();
+
     private ComparisonResult? _lastResult;
+
+    private List<RomEntry> _missingFromXml = new();
+    private List<RomEntry> _missingFromDisk = new();
 
     private readonly ListViewSorter _xmlSorter = new();
     private readonly ListViewSorter _diskSorter = new();
 
-    private readonly Color _normalBackColor;
     private readonly Color _dropBackColor = Color.FromArgb(240, 248, 255);
 
+    private List<string> _allExtensions = new();
 
     public MainForm()
     {
         InitializeComponent();
 
-        _normalBackColor = BackColor;
+        ApplyLocalization();
+
+        UpdateLanguageMenu();
+
+        LocalizationService.LanguageChanged += OnLanguageChanged;
 
         AllowDrop = true;
 
@@ -35,24 +49,308 @@ public partial class MainForm : Form
 
         ActiveControl = btnCompare;
 
+        txtSearchXml.Enabled = false;
+        txtSearchDisk.Enabled = false;
+
         lvMissingFromXml.ListViewItemSorter = _xmlSorter;
         lvMissingFromDisk.ListViewItemSorter = _diskSorter;
 
         lvMissingFromXml.ColumnClick += LvMissingFromXml_ColumnClick;
         lvMissingFromDisk.ColumnClick += LvMissingFromDisk_ColumnClick;
 
+        ListViewContextMenuHelper.Attach(lvMissingFromXml);
+        ListViewContextMenuHelper.Attach(lvMissingFromDisk);
+
+        // Configuration du ComboBox des extensions
+        cmbExtension.DropDownStyle = ComboBoxStyle.DropDown;
+        cmbExtension.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+        cmbExtension.AutoCompleteSource = AutoCompleteSource.ListItems;
+
         ReloadExtensions();
 
         btnExportTxt.Enabled = false;
         btnExportCsv.Enabled = false;
-        
-        txtRomFolder.TextChanged += (_, _) => UpdateCompareButtonState();
-        txtGameList.TextChanged += (_, _) => UpdateCompareButtonState();
-        cmbExtension.TextChanged += (_, _) => UpdateCompareButtonState();
+
+        txtRomFolder.TextChanged += (_, _) =>
+        {
+            UpdateCompareButtonState();
+        };
+
+        txtGameList.TextChanged += (_, _) =>
+        {
+            UpdateCompareButtonState();
+        };
+
+        cmbExtension.TextChanged += (_, _) =>
+        {
+            UpdateCompareButtonState();
+        };
+
+        // Recherche instantanée
+        txtSearchXml.TextChanged += (_, _) =>
+        {
+            RefreshMissingXml();
+        };
+
+        txtSearchDisk.TextChanged += (_, _) =>
+        {
+            RefreshMissingDisk();
+        };
+
+        // ESC efface la recherche
+        txtSearchXml.KeyDown += SearchBox_KeyDown;
+        txtSearchDisk.KeyDown += SearchBox_KeyDown;
 
         UpdateCompareButtonState();
+
+        // Vérifie les mises à jour après l'affichage de la fenêtre
+        Shown += async (_, _) => await CheckForUpdatesAsync();
+        }
+
+    private void OnLanguageChanged(object? sender, EventArgs e)
+    {
+        ApplyLocalization();
+        UpdateLanguageMenu();
     }
 
+    protected override void OnFormClosed(FormClosedEventArgs e)
+    {
+        LocalizationService.LanguageChanged -= OnLanguageChanged;
+
+        base.OnFormClosed(e);
+    }
+
+    private void ApplyLocalization()
+    {
+        // Menus
+        mnuFile.Text = L.MenuFile;
+        mnuLanguage.Text = L.MenuLanguage;
+        mnuExit.Text = L.MenuExit;
+        mnuHelp.Text = L.MenuHelp;
+        mnuGitHub.Text = L.MenuGitHub;
+        mnuAbout.Text = L.MenuAbout;
+        mnuCheckUpdates.Text = L.MenuCheckUpdates;
+
+        // Labels
+        lblRomFolder.Text = L.LabelRomFolder;
+        lblGameList.Text = L.LabelGameList;
+        lblExtension.Text = L.LabelExtensions;
+
+        // Boutons
+        btnCompare.Text = L.ButtonCompare;
+        btnExportTxt.Text = L.ButtonExportTxt;
+        btnExportCsv.Text = L.ButtonExportCsv;
+
+        // CheckBox
+        chkRecursive.Text = L.CheckRecursive;
+        txtRomFolder.PlaceholderText = L.PlaceholderRomFolder;
+        txtGameList.PlaceholderText = L.PlaceholderGameList;
+
+        txtSearchXml.PlaceholderText = L.PlaceholderSearch;
+        txtSearchDisk.PlaceholderText = L.PlaceholderSearch;
+
+
+        grpStatistics.Text = L.StatisticsGroup;
+
+        lblDiskCount.Text = string.Format(L.PlatformGames, 0);
+        lblXmlCount.Text = string.Format(L.XmlEntries, 0);
+        lblMatching.Text = string.Format(L.ValidRoms, 0);
+
+        lblMissingXml.Text = string.Format(L.MissingXml, 0);
+        lblMissingDisk.Text = string.Format(L.MissingDisk, 0);
+
+        lblHint.Text = L.HintDoubleClick;
+
+        label1.Text = L.Ready;
+
+        lblHint.Text = L.HintDoubleClick;
+
+        lblHiddenIgnored.Text = string.Format(L.HiddenGames, 0);
+        lblMultiDiskIgnored.Text = string.Format(L.IgnoredMultiDisk, 0);
+
+        label1.Text = L.Ready;
+
+        // Titres des listes
+        lblMissingXmlTitle.Text = L.MissingXmlTitle;
+        lblMissingDiskTitle.Text = L.MissingDiskTitle;
+
+        // Colonnes
+        colXmlRom.Text = L.ColumnRom;
+        colXmlFolder.Text = L.ColumnFolder;
+
+        colDiskRom.Text = L.ColumnRom;
+        colDiskFolder.Text = L.ColumnFolder;
+
+        // Titre de la fenêtre
+        Text = L.ApplicationTitle;
+    }
+   
+      private void mnuEnglish_Click(object? sender, EventArgs e)
+    {
+        LocalizationService.SetLanguage(English.Strings);
+
+        Properties.Settings.Default.Language = "English";
+        Properties.Settings.Default.Save();
+    }
+
+    private void UpdateLanguageMenu()
+    {
+        bool isEnglish =
+            Properties.Settings.Default.Language == "English";
+
+        mnuEnglish.Checked = isEnglish;
+        mnuFrench.Checked = !isEnglish;
+    }
+
+    private void mnuFrench_Click(object? sender, EventArgs e)
+    {
+        LocalizationService.SetLanguage(French.Strings);
+
+        Properties.Settings.Default.Language = "French";
+        Properties.Settings.Default.Save();
+    }
+
+    private void SearchBox_KeyDown(object? sender, KeyEventArgs e)
+    {
+        if (e.KeyCode != Keys.Escape)
+            return;
+
+        if (sender is TextBox textBox)
+        {
+            textBox.Clear();
+
+            e.Handled = true;
+            e.SuppressKeyPress = true;
+        }
+
+    }
+    private void RefreshMissingXml()
+    {
+        lvMissingFromXml.BeginUpdate();
+
+        lvMissingFromXml.Items.Clear();
+
+        IEnumerable<RomEntry> roms = _missingFromXml;
+
+        string filter = txtSearchXml.Text.Trim();
+
+        if (!string.IsNullOrWhiteSpace(filter))
+        {
+            roms = roms.Where(r =>
+                r.FileName.Contains(
+                    filter,
+                    StringComparison.OrdinalIgnoreCase));
+        }
+
+        if (!roms.Any())
+        {
+            ListViewItem item =
+                new(L.NoMissingXml);
+
+            // Pas de Tag volontairement.
+            // Cette ligne est informative uniquement.
+
+            lvMissingFromXml.Items.Add(item);
+        }
+        else
+        {
+            foreach (RomEntry rom in roms)
+            {
+                ListViewItem item = new(rom.FileName);
+
+                string folder =
+                    Path.GetDirectoryName(rom.RelativePath);
+
+                if (string.IsNullOrWhiteSpace(folder))
+                    folder = L.RootFolder;
+
+                item.SubItems.Add(folder);
+
+                item.Tag = rom;
+
+                lvMissingFromXml.Items.Add(item);
+            }
+        }
+
+        _xmlSorter.Column = 0;
+        _xmlSorter.Order = SortOrder.Ascending;
+
+        lvMissingFromXml.Sort();
+
+        UpdateColumnHeaders(
+            lvMissingFromXml,
+            0,
+            SortOrder.Ascending);
+
+        foreach (ColumnHeader column in lvMissingFromXml.Columns)
+            column.Width = -2;
+
+        lvMissingFromXml.EndUpdate();
+    }
+
+    private void RefreshMissingDisk()
+    {
+        lvMissingFromDisk.BeginUpdate();
+
+        lvMissingFromDisk.Items.Clear();
+
+        IEnumerable<RomEntry> roms = _missingFromDisk;
+
+        string filter = txtSearchDisk.Text.Trim();
+
+        if (!string.IsNullOrWhiteSpace(filter))
+        {
+            roms = roms.Where(r =>
+                r.FileName.Contains(
+                    filter,
+                    StringComparison.OrdinalIgnoreCase));
+        }
+
+        if (!roms.Any())
+        {
+            ListViewItem item =
+    new(L.NoMissingDisk);
+
+            // Pas de Tag volontairement.
+            // Cette ligne est informative uniquement.
+
+            lvMissingFromDisk.Items.Add(item);
+        }
+        else
+        {
+            foreach (RomEntry rom in roms)
+            {
+                ListViewItem item = new(rom.FileName);
+
+                string folder =
+                    Path.GetDirectoryName(rom.RelativePath);
+
+                if (string.IsNullOrWhiteSpace(folder))
+                    folder = L.RootFolder;
+
+                item.SubItems.Add(folder);
+
+                item.Tag = rom;
+
+                lvMissingFromDisk.Items.Add(item);
+            }
+        }
+
+        _diskSorter.Column = 0;
+        _diskSorter.Order = SortOrder.Ascending;
+
+        lvMissingFromDisk.Sort();
+
+        UpdateColumnHeaders(
+            lvMissingFromDisk,
+            0,
+            SortOrder.Ascending);
+
+        foreach (ColumnHeader column in lvMissingFromDisk.Columns)
+            column.Width = -2;
+
+        lvMissingFromDisk.EndUpdate();
+    }
     class ListViewItemComparer : System.Collections.IComparer
     {
         private readonly int _column;
@@ -78,39 +376,6 @@ public partial class MainForm : Form
         }
     }
 
-    private void MainForm_DragEnter(object? sender, DragEventArgs e)
-    {
-        if (e.Data?.GetDataPresent(DataFormats.FileDrop) == true)
-        {
-            e.Effect = DragDropEffects.Copy;
-
-            txtRomFolder.BackColor = Color.FromArgb(210, 235, 255);
-            txtGameList.BackColor = Color.FromArgb(210, 235, 255);
-
-            txtRomFolder.PlaceholderText =
-                "📁 Relâchez pour déposer votre dossier...";
-
-            txtGameList.PlaceholderText =
-                "📄 Le GameList.xml sera détecté automatiquement.";
-        }
-        else
-        {
-            e.Effect = DragDropEffects.None;
-        }
-    }
-
-    private void MainForm_DragLeave(object? sender, EventArgs e)
-    {
-        txtRomFolder.BackColor = SystemColors.Window;
-        txtGameList.BackColor = SystemColors.Window;
-
-        txtRomFolder.PlaceholderText =
-            "📁 Glissez ici un dossier de ROMs...";
-
-        txtGameList.PlaceholderText =
-            "📄 Glissez ici un fichier gamelist.xml...";
-    }
-
     private void UpdateCompareButtonState()
     {
         bool romFolderValid =
@@ -128,27 +393,58 @@ public partial class MainForm : Form
             extensionsValid;
     }
 
-    private void MainForm_DragDrop(object? sender, DragEventArgs e)
+    private void MainForm_DragEnter(object? sender, DragEventArgs e)
     {
-        pnlDropOverlay.Visible = false;
+        if (e.Data?.GetDataPresent(DataFormats.FileDrop) == true)
+        {
+            e.Effect = DragDropEffects.Copy;
 
-        BackColor = _normalBackColor;
+            txtRomFolder.BackColor = Color.FromArgb(235, 245, 255);
+            txtGameList.BackColor = Color.FromArgb(235, 245, 255);
 
-        txtRomFolder.PlaceholderText =
-            "📁 Glissez ici un dossier de ROMs...";
+            btnCompare.BackColor = Color.FromArgb(235, 245, 255);
 
-        txtGameList.PlaceholderText =
-            "📄 Glissez ici un fichier gamelist.xml...";
+            txtRomFolder.PlaceholderText =
+    L.DropRomFolder;
 
+            txtGameList.PlaceholderText =
+    L.DropGameList;
+        }
+        else
+        {
+            e.Effect = DragDropEffects.None;
+        }
+    }
+
+    private void MainForm_DragLeave(object? sender, EventArgs e)
+    {
         txtRomFolder.BackColor = SystemColors.Window;
         txtGameList.BackColor = SystemColors.Window;
 
+        btnCompare.UseVisualStyleBackColor = true;
+
         txtRomFolder.PlaceholderText =
-            "📁 Glissez ici un dossier de ROMs...";
+    L.PlaceholderRomFolder;
 
         txtGameList.PlaceholderText =
-            "📄 Glissez ici un fichier gamelist.xml...";
+    L.PlaceholderGameList;
+    }
 
+    private void MainForm_DragDrop(object? sender, DragEventArgs e)
+    {
+        // Restaure l'apparence normale
+        txtRomFolder.BackColor = SystemColors.Window;
+        txtGameList.BackColor = SystemColors.Window;
+
+        btnCompare.UseVisualStyleBackColor = true;
+
+        txtRomFolder.PlaceholderText =
+    L.PlaceholderRomFolder;
+
+        txtGameList.PlaceholderText =
+    L.PlaceholderGameList;
+
+        // Vérifie que l'utilisateur a bien déposé quelque chose
         if (e.Data?.GetData(DataFormats.FileDrop) is not string[] files ||
             files.Length == 0)
             return;
@@ -160,35 +456,33 @@ public partial class MainForm : Form
         {
             txtRomFolder.Text = path;
 
-            string gameList =
-                Path.Combine(path, "gamelist.xml");
+            string gameList = Path.Combine(path, "gamelist.xml");
 
             if (File.Exists(gameList))
                 txtGameList.Text = gameList;
-
-            return;
-
-            UpdateCompareButtonState();
         }
-
         // Dépôt d'un fichier gamelist.xml
-        if (File.Exists(path) &&
-            Path.GetFileName(path).Equals(
-                "gamelist.xml",
-                StringComparison.OrdinalIgnoreCase))
+        else if (File.Exists(path) &&
+                 Path.GetFileName(path).Equals(
+                     "gamelist.xml",
+                     StringComparison.OrdinalIgnoreCase))
         {
             txtGameList.Text = path;
-            txtRomFolder.Text =
-                Path.GetDirectoryName(path)!;
+            txtRomFolder.Text = Path.GetDirectoryName(path)!;
         }
+
+        // Met à jour l'état du bouton Comparer
+        UpdateCompareButtonState();
     }
 
     private void ReloadExtensions()
     {
         List<string> current = GetExtensions();
 
+        _allExtensions = _extensionService.LoadExtensions();
+
         cmbExtension.DataSource = null;
-        cmbExtension.DataSource = _extensionService.LoadExtensions();
+        cmbExtension.DataSource = _allExtensions;
 
         if (current.Any())
         {
@@ -209,7 +503,7 @@ public partial class MainForm : Form
         dialog.FileName =
             $"{systemName}_Compare_{DateTime.Now:yyyy-MM-dd_HHmmss}.txt";
 
-        dialog.Filter = "Fichier texte (*.txt)|*.txt";
+        dialog.Filter = L.TextFileFilter;
 
         if (dialog.ShowDialog() != DialogResult.OK)
             return;
@@ -222,10 +516,10 @@ public partial class MainForm : Form
             _lastResult);
 
         MessageBox.Show(
-            "Export terminé.",
-            "Information",
-            MessageBoxButtons.OK,
-            MessageBoxIcon.Information);
+    L.ExportFinished,
+    L.Information,
+    MessageBoxButtons.OK,
+    MessageBoxIcon.Information);
     }
 
     private void btnExportCsv_Click(object sender, EventArgs e)
@@ -240,7 +534,7 @@ public partial class MainForm : Form
         dialog.FileName =
             $"{systemName}_Compare_{DateTime.Now:yyyy-MM-dd_HHmmss}.csv";
 
-        dialog.Filter = "CSV (*.csv)|*.csv";
+        dialog.Filter = L.CsvFilter;
 
         if (dialog.ShowDialog() != DialogResult.OK)
             return;
@@ -250,8 +544,8 @@ public partial class MainForm : Form
             _lastResult);
 
         MessageBox.Show(
-            "Export CSV terminé.",
-            "Information",
+            L.ExportCsvFinished,
+            L.Information,
             MessageBoxButtons.OK,
             MessageBoxIcon.Information);
     }
@@ -265,19 +559,31 @@ public partial class MainForm : Form
     {
         if (!Directory.Exists(txtRomFolder.Text))
         {
-            MessageBox.Show("Sélectionnez un dossier ROMs valide.");
+            MessageBox.Show(
+    L.SelectValidRomFolder,
+    L.Error,
+    MessageBoxButtons.OK,
+    MessageBoxIcon.Error);
             return false;
         }
 
         if (!File.Exists(txtGameList.Text))
         {
-            MessageBox.Show("Sélectionnez un GameList.xml valide.");
+            MessageBox.Show(
+    L.SelectValidGameList,
+    L.Error,
+    MessageBoxButtons.OK,
+    MessageBoxIcon.Error);
             return false;
         }
 
         if (string.IsNullOrWhiteSpace(cmbExtension.Text))
         {
-            MessageBox.Show("Sélectionnez une extension.");
+            MessageBox.Show(
+    L.SelectExtension,
+    L.Warning,
+    MessageBoxButtons.OK,
+    MessageBoxIcon.Warning);
             return false;
         }
 
@@ -297,7 +603,7 @@ public partial class MainForm : Form
     {
         using OpenFileDialog dlg = new();
 
-        dlg.Filter = "GameList (*.xml)|*.xml";
+        dlg.Filter = L.GameListFilter;
 
         if (dlg.ShowDialog() == DialogResult.OK)
             txtGameList.Text = dlg.FileName;
@@ -350,7 +656,7 @@ public partial class MainForm : Form
         {
             MessageBox.Show(
                 ex.Message,
-                "Impossible d'ouvrir GitHub",
+                L.CannotOpenGitHub,
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Error);
         }
@@ -361,9 +667,10 @@ public partial class MainForm : Form
         label1.Visible = true;
 
         progressBar.Value = 0;
-        label1.Text = "Analyse du dossier ROMs...";
+        label1.Text = L.ScanningRomFolder;
 
         Application.DoEvents();
+
         if (!ValidateInputs())
             return;
 
@@ -377,13 +684,13 @@ public partial class MainForm : Form
         if (unknown.Any())
         {
             string message =
-                "Les extensions suivantes n'existent pas :\n\n" +
-                string.Join(Environment.NewLine, unknown) +
-                "\n\nVoulez-vous les ajouter ?";
+     string.Format(
+         L.NewExtensionsMessage,
+         string.Join(Environment.NewLine, unknown));
 
             if (MessageBox.Show(
                 message,
-                "Nouvelles extensions",
+                L.NewExtensionsTitle,
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Question) == DialogResult.Yes)
             {
@@ -392,37 +699,70 @@ public partial class MainForm : Form
                 ReloadExtensions();
 
                 cmbExtension.Text =
-    _extensionService.Format(extensions);
+                    _extensionService.Format(extensions);
             }
         }
 
-        var disk = _folderScannerService.Scan(
-    txtRomFolder.Text,
-    extensions,
-    chkRecursive.Checked);
+        //----------------------------------------------------------
+        // Scan du disque
+        //----------------------------------------------------------
 
-        progressBar.Value = 30;
-        label1.Text = "Lecture du GameList.xml...";
-        Application.DoEvents();
+        var disk = _folderScannerService.Scan(
+            txtRomFolder.Text,
+            extensions,
+            chkRecursive.Checked);
+
+               //----------------------------------------------------------
+        // Lecture du XML
+        //----------------------------------------------------------
 
         var xml = _xmlReaderService.Read(
-    txtGameList.Text,
-    txtRomFolder.Text);
+            txtGameList.Text,
+            txtRomFolder.Text);
 
         progressBar.Value = 60;
-        label1.Text = "Comparaison des fichiers...";
+        label1.Text = L.ComparingFiles;
         Application.DoEvents();
 
-        _lastResult = _comparisonService.Compare(disk, xml);
+        //----------------------------------------------------------
+        // Comparaison
+        //----------------------------------------------------------
+
+        _lastResult = _comparisonService.Compare(
+            disk,
+            xml);
+
+        //----------------------------------------------------------
+        // Sauvegarde des listes originales
+        //----------------------------------------------------------
+
+        _missingFromXml =
+            _lastResult.MissingFromXml.ToList();
+
+        _missingFromDisk =
+            _lastResult.MissingFromDisk.ToList();
+
+        txtSearchXml.Enabled =
+            _missingFromXml.Count > 0;
+
+        txtSearchDisk.Enabled =
+            _missingFromDisk.Count > 0;
+
+        txtSearchXml.Clear();
+        txtSearchDisk.Clear();
 
         progressBar.Value = 90;
-        label1.Text = "Affichage des résultats...";
+        label1.Text = L.DisplayingResults;
         Application.DoEvents();
 
-        DisplayResult(_lastResult);
+        DisplayStatistics(
+            _lastResult);
+
+        RefreshMissingXml();
+        RefreshMissingDisk();
 
         progressBar.Value = 100;
-        label1.Text = "Comparaison terminée.";
+        label1.Text = L.ComparisonFinished;
         Application.DoEvents();
 
         Thread.Sleep(300);
@@ -434,107 +774,10 @@ public partial class MainForm : Form
         btnExportCsv.Enabled = true;
     }
 
-    private void DisplayResult(ComparisonResult result)
-    {
-        lblDiskCount.Text = $"ROMs disque : {result.DiskCount}";
-        lblXmlCount.Text = $"Entrées XML : {result.XmlCount}";
-        lblMatching.Text = $"Correspondances : {result.MatchingCount}";
-        lblMissingXml.Text = $"Absentes XML : {result.MissingFromXml.Count}";
-        lblMissingDisk.Text = $"Absentes disque : {result.MissingFromDisk.Count}";
-        lblMissingXmlTitle.Text = $"Absentes du XML ({result.MissingFromXml.Count})";
-        lblMissingDiskTitle.Text = $"Absentes du disque ({result.MissingFromDisk.Count})";
-
-        lvMissingFromXml.Items.Clear();
-        lvMissingFromDisk.Items.Clear();
-
-        //---------------------------------------
-        // ROMs absentes du XML
-        //---------------------------------------
-
-        if (result.MissingFromXml.Count == 0)
-        {
-            lvMissingFromXml.Items.Add(
-                new ListViewItem("✓ Aucune ROM absente du XML"));
-        }
-        else
-        {
-            foreach (RomEntry rom in result.MissingFromXml)
-            {
-                ListViewItem item = new(rom.FileName);
-
-                string folder = Path.GetDirectoryName(rom.RelativePath);
-
-                if (string.IsNullOrWhiteSpace(folder))
-                    folder = "[racine]";
-
-                item.SubItems.Add(folder);
-
-                // IMPORTANT
-                item.Tag = rom;
-
-                lvMissingFromXml.Items.Add(item);
-            }
-        }
-
-        //---------------------------------------
-        // ROMs absentes du disque
-        //---------------------------------------
-
-        if (result.MissingFromDisk.Count == 0)
-        {
-            lvMissingFromDisk.Items.Add(
-                new ListViewItem("✓ Aucune ROM absente du disque"));
-        }
-        else
-        {
-            foreach (RomEntry rom in result.MissingFromDisk)
-            {
-                ListViewItem item = new(rom.FileName);
-
-                string folder = Path.GetDirectoryName(rom.RelativePath);
-
-                if (string.IsNullOrWhiteSpace(folder))
-                    folder = "[racine]";
-
-                item.SubItems.Add(folder);
-
-                // IMPORTANT
-                item.Tag = rom;
-
-                lvMissingFromDisk.Items.Add(item);
-            }
-        }
-
-        // Tri automatique des listes
-        _xmlSorter.Column = 0;
-        _xmlSorter.Order = SortOrder.Ascending;
-
-        _diskSorter.Column = 0;
-        _diskSorter.Order = SortOrder.Ascending;
-
-        lvMissingFromXml.Sort();
-        lvMissingFromDisk.Sort();
-
-        UpdateColumnHeaders(
-            lvMissingFromXml,
-            0,
-            SortOrder.Ascending);
-
-        UpdateColumnHeaders(
-            lvMissingFromDisk,
-            0,
-            SortOrder.Ascending);
-
-        foreach (ColumnHeader column in lvMissingFromXml.Columns)
-            column.Width = -2;
-
-        foreach (ColumnHeader column in lvMissingFromDisk.Columns)
-            column.Width = -2;
-    }
     private static void UpdateColumnHeaders(
-    ListView listView,
-    int column,
-    SortOrder order)
+        ListView listView,
+        int column,
+        SortOrder order)
     {
         foreach (ColumnHeader header in listView.Columns)
         {
@@ -551,6 +794,31 @@ public partial class MainForm : Form
 
         listView.Columns[column].Text += arrow;
     }
+
+    private void DisplayStatistics(ComparisonResult result)
+    {
+        lblDiskCount.Text =
+            string.Format(L.PlatformGames, result.ComparedCount);
+
+        lblXmlCount.Text =
+            string.Format(L.XmlEntries, result.XmlCount);
+
+        lblMatching.Text =
+            string.Format(L.ValidRoms, result.MatchingCount);
+
+        lblMultiDiskIgnored.Text =
+            string.Format(L.IgnoredMultiDisk, result.MultiDiskIgnoredCount);
+
+        lblHiddenIgnored.Text =
+            string.Format(L.HiddenGames, result.HiddenIgnoredCount);
+
+        lblMissingXml.Text =
+            string.Format(L.MissingXml, result.MissingFromXml.Count);
+
+        lblMissingDisk.Text =
+            string.Format(L.MissingDisk, result.MissingFromDisk.Count);
+    }
+
     private void lvMissingFromXml_DoubleClick(object sender, EventArgs e)
     {
         if (lvMissingFromXml.SelectedItems.Count == 0)
@@ -575,19 +843,35 @@ public partial class MainForm : Form
         if (lvMissingFromDisk.SelectedItems[0].Tag is not RomEntry rom)
             return;
 
-        string folder = Path.GetDirectoryName(rom.FullPath);
-
-        if (string.IsNullOrWhiteSpace(folder))
-            return;
-
-        if (Directory.Exists(folder))
+        if (!File.Exists(rom.GameListPath))
         {
-            System.Diagnostics.Process.Start(
-                "explorer.exe",
-                $"\"{folder}\"");
+            MessageBox.Show(
+                L.GameListNotFound,
+                L.ApplicationTitle,
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Warning);
+
+            return;
         }
-    
+
+        try
+        {
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = rom.GameListPath,
+                UseShellExecute = true
+            });
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show(
+                string.Format(L.CannotOpenFile, ex.Message),
+                L.ApplicationTitle,
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Error);
+        }
     }
+
     private void LvMissingFromXml_ColumnClick(object? sender, ColumnClickEventArgs e)
     {
         if (_xmlSorter.Column == e.Column)
@@ -632,5 +916,133 @@ public partial class MainForm : Form
             lvMissingFromDisk,
             _diskSorter.Column,
             _diskSorter.Order);
+    }
+
+    private void lblDropOverlay_Click(object sender, EventArgs e)
+    {
+
+    }
+
+    private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
+    {
+
+    }
+
+    private void menuStrip1_ItemClicked_1(object sender, ToolStripItemClickedEventArgs e)
+    {
+
+    }
+
+    private void lblDropHint_Click(object sender, EventArgs e)
+    {
+
+    }
+
+    private void textBox2_TextChanged(object sender, EventArgs e)
+    {
+
+    }
+
+    private async void mnuCheckUpdates_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            GitHubRelease? release =
+                await _updateService.GetLatestReleaseAsync();
+
+            MessageBox.Show(
+    string.Format(
+        L.InstalledVersion,
+        _updateService.GetCurrentVersionString(),
+        release?.TagName),
+    L.UpdateCheckTitle,
+    MessageBoxButtons.OK,
+    MessageBoxIcon.Information);
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show(
+    string.Format(
+        L.CannotCheckUpdates,
+        ex.Message),
+    L.Error,
+    MessageBoxButtons.OK,
+    MessageBoxIcon.Error);
+        }
+    }
+    private async Task CheckForUpdatesAsync()
+    {
+        try
+        {
+            GitHubRelease? release =
+                await _updateService.GetLatestReleaseAsync();
+
+            if (release == null)
+                return;
+
+            Version current =
+                _updateService.GetCurrentVersion();
+
+            Version latest =
+                Version.Parse(
+                    release.TagName.TrimStart('v', 'V'));
+
+
+            if (latest <= current)
+                return;
+
+            GitHubAsset? asset =
+                _updateService.GetPortableAsset(release);
+
+            if (asset == null)
+            {
+                MessageBox.Show(
+    L.PortableReleaseNotFound,
+    L.UpdateTitle,
+    MessageBoxButtons.OK,
+    MessageBoxIcon.Warning);
+
+                return;
+            }
+
+            UpdateForm updateForm = new(
+                current,
+                release,
+                asset);
+
+            if (updateForm.ShowDialog(this) == DialogResult.OK)
+            {
+                string downloadedFile =
+                    await _updateService.DownloadPortableReleaseAsync(asset);
+
+                MessageBox.Show(
+    string.Format(
+        L.DownloadFinished,
+        downloadedFile),
+    L.UpdateTitle,
+    MessageBoxButtons.OK,
+    MessageBoxIcon.Information);
+            }
+        }
+        catch
+        {
+            // Pas d'Internet ou GitHub indisponible :
+            // on ignore silencieusement.
+        }
+    }
+
+    private void lblDiskCount_Click(object sender, EventArgs e)
+    {
+
+    }
+
+    private void lblXmlCount_Click(object sender, EventArgs e)
+    {
+
+    }
+
+    private void grpStatistics_Enter(object sender, EventArgs e)
+    {
+
     }
 }

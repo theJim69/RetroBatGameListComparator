@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RetroBatGameListComparator.Localization;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
@@ -19,8 +20,11 @@ public partial class ExtensionSelectorForm : Form
         IEnumerable<string> selectedExtensions)
     {
         InitializeComponent();
+        ApplyLocalization();
 
         _allExtensions.AddRange(allExtensions.OrderBy(x => x));
+
+        LocalizationService.LanguageChanged += OnLanguageChanged;
 
         foreach (string extension in selectedExtensions)
         {
@@ -29,15 +33,73 @@ public partial class ExtensionSelectorForm : Form
 
         RefreshList();
     }
+
+    private void OnLanguageChanged(object? sender, EventArgs e)
+    {
+        ApplyLocalization();
+    }
+
+    protected override void OnFormClosed(FormClosedEventArgs e)
+    {
+        LocalizationService.LanguageChanged -= OnLanguageChanged;
+
+        base.OnFormClosed(e);
+    }
+
+    protected override void OnShown(EventArgs e)
+    {
+        base.OnShown(e);
+
+        txtSearch.Focus();
+    }
+
+    protected override bool ProcessCmdKey(
+        ref Message msg,
+        Keys keyData)
+    {
+        if (keyData == Keys.Escape)
+        {
+            if (!string.IsNullOrWhiteSpace(txtSearch.Text))
+            {
+                txtSearch.Clear();
+                txtSearch.Focus();
+            }
+            else
+            {
+                DialogResult = DialogResult.Cancel;
+                Close();
+            }
+
+            return true;
+        }
+
+        return base.ProcessCmdKey(ref msg, keyData);
+    }
+
+    private void ApplyLocalization()
+    {
+        Text = L.ExtensionSelectorTitle;
+
+        lblSearch.Text = L.SearchLabel;
+
+        colExtension.Text = L.ExtensionColumn;
+
+        btnSelectAll.Text = L.SelectAll;
+        btnClearAll.Text = L.ClearAll;
+
+        btnCancel.Text = L.Cancel;
+    }
+
     private void txtSearch_TextChanged(
-    object sender,
-    EventArgs e)
+        object sender,
+        EventArgs e)
     {
         RefreshList();
     }
+
     private void lvExtensions_ItemChecked(
-    object sender,
-    ItemCheckedEventArgs e)
+        object sender,
+        ItemCheckedEventArgs e)
     {
         if (e.Item.Checked)
             _selected.Add(e.Item.Text);
@@ -66,7 +128,9 @@ public partial class ExtensionSelectorForm : Form
     private void UpdateCounter()
     {
         lblCount.Text =
-            $"{_selected.Count} extension(s) sélectionnée(s)";
+    string.Format(
+        L.SelectedExtensions,
+        _selected.Count);
     }
 
     private void btnOK_Click(object sender, EventArgs e)
@@ -98,7 +162,8 @@ public partial class ExtensionSelectorForm : Form
         if (!string.IsNullOrWhiteSpace(filter))
         {
             extensions = extensions.Where(x =>
-                x.Contains(filter,
+                x.Contains(
+                    filter,
                     StringComparison.OrdinalIgnoreCase));
         }
 
