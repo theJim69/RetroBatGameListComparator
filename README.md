@@ -18,11 +18,23 @@ Detect missing ROMs, obsolete XML entries, and keep your RetroBat collections pe
 
 </div>
 
+## ⭐ Highlights
+
+- ✔ Accurate comparison engine
+- ✔ Hidden & MultiDisk aware
+- ✔ Drag & Drop support
+- ✔ TXT / CSV exports
+- ✔ GameList diagnostics
+- ✔ English / French / Spanish
+- ✔ Automatic update checker
+
 ---
 
 # 📖 Overview
 
-RetroBat GameList Comparator is a Windows utility designed to compare a ROM folder with its corresponding `gamelist.xml`.
+RetroBat GameList Comparator is a professional Windows utility for validating and maintaining RetroBat GameList.xml files.
+
+It compares ROM folders with their corresponding GameList.xml, detects inconsistencies, and produces accurate reports while correctly handling Hidden and MultiDisk entries..
 
 Unlike a simple file comparison tool, it understands how **RetroBat** and **EmulationStation** organize ROM collections and automatically ignores entries that should not be reported, producing statistics that closely match the games actually displayed in RetroBat.
 
@@ -67,7 +79,7 @@ Unlike a simple file comparison tool, it understands how **RetroBat** and **Emul
 - ✅ Progress bar
 - ✅ Sortable result lists
 - ✅ Double-click to open a ROM folder
-- ✅ English / French localization
+- ✅ English / French / Spanish localization
 - ✅ Runtime language switching
 - ✅ Automatic language persistence
 
@@ -192,12 +204,13 @@ Simply drag:
 
 # 🌍 Localization
 
-RetroBat GameList Comparator now includes a complete multilingual system.
+RetroBat GameList Comparator now provides full multilingual support with runtime language switching.
 
 Currently supported languages:
 
 - 🇬🇧 English
 - 🇫🇷 Français
+- 🇪🇸 Español
 
 Features:
 
@@ -215,69 +228,29 @@ The localization architecture has been designed to easily support additional lan
 - C#
 - .NET 8
 - Windows Forms
+- XML
+- GitHub REST API
 
 ---
 
 # 📋 Roadmap
 
-## Version 1.6.0
+The next major milestone will focus on the evolution of RetroBat GameList Comparator into a complete GameList management solution.
 
-### 🔍 GameList Inspector
+Current priorities include:
 
-- Duplicate `<path>` detection
-- Duplicate games detection
-- Invalid MultiDisk entries
-- Missing ROMs
-- Missing images
-- Missing videos
-- Missing manuals
-- XML consistency checker
-- Repair suggestions
-
-### User Interface
-
-- Improved status bar
-- Better progress reporting
-- Additional statistics
-- Better error messages
+- Improved documentation
+- Release validation process
+- Collection management
+- Advanced diagnostics
+- XML maintenance tools
+- Batch operations
 
 ---
 
-## Version 1.7.0
+# 💡 Long-Term Ideas
 
-### 🇪🇸 Spanish Localization
-
-- Complete Spanish translation
-- Review exported reports
-- Improve localization support
-
-### XML Tools
-
-- XML cleanup
-- Remove duplicate entries
-- Automatic backup
-- XML validation
-- Metadata consistency checker
-
-### Batch Operations
-
-- Batch rename
-- Batch metadata update
-- Batch artwork verification
-
----
-
-## Version 2.0.0
-
-### 🎮 GameList Editor
-
-- Edit metadata
-- Edit descriptions
-- Edit genres
-- Edit ratings
-- Edit developers
-- Edit publishers
-- Edit release dates
+Possible future features.
 
 ### 🔄 Automatic Synchronization
 
@@ -296,12 +269,6 @@ The localization architecture has been designed to easily support additional lan
 - Duplicate games
 - Empty metadata
 
----
-
-# 💡 Long-Term Ideas
-
-Possible future features.
-
 ## 📊 Statistics
 
 - Largest ROM collections
@@ -316,6 +283,16 @@ Possible future features.
 - HTML reports
 - PDF reports
 - JSON export
+
+---
+
+## 🌍 Localization
+
+- ✅ English
+- ✅ Français
+- ✅ Español
+- ✅ Runtime language switching
+- ✅ Automatic language persistence
 
 ---
 
@@ -374,17 +351,17 @@ See the **LICENSE** file for details.
 
 # 👤 Author
 
-**theJim**
+Created and maintained by **theJim**
 
 GitHub:
-
-https://github.com/theJim69/RetroBatGameListComparator
+https://github.com/theJim69
 
 ---
 
 # ❤️ Special Thanks
 
 - RetroBat Team
+- RetroBat Community
 - EmulationStation
 - ScreenScraper
 - All users who report bugs, suggest new ideas and help improve the project.
