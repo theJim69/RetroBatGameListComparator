@@ -9,14 +9,19 @@ internal static class Program
     {
         ApplicationConfiguration.Initialize();
 
-        // Anglais par défaut
-        if (Properties.Settings.Default.Language == "French")
+        switch (Properties.Settings.Default.Language)
         {
-            LocalizationService.SetLanguage(French.Strings);
-        }
-        else
-        {
-            LocalizationService.SetLanguage(English.Strings);
+            case "French":
+                LocalizationService.SetLanguage(French.Strings);
+                break;
+
+            case "Spanish":
+                LocalizationService.SetLanguage(Spanish.Strings);
+                break;
+
+            default:
+                LocalizationService.SetLanguage(English.Strings);
+                break;
         }
 
         Application.Run(new MainForm());

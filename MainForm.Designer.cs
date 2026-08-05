@@ -45,6 +45,7 @@
 
             mnuEnglish = new ToolStripMenuItem();
             mnuFrench = new ToolStripMenuItem();
+            mnuSpanish = new ToolStripMenuItem();
             mnuGitHub = new ToolStripMenuItem();
             toolStripSeparator1 = new ToolStripSeparator();
             mnuAbout = new ToolStripMenuItem();
@@ -99,7 +100,8 @@
             mnuLanguage.DropDownItems.AddRange(new ToolStripItem[]
             {
             mnuEnglish,
-            mnuFrench
+            mnuFrench,
+            mnuSpanish
             });
 
             mnuLanguage.Name = "mnuLanguage";
@@ -111,15 +113,22 @@
             //
             mnuEnglish.Name = "mnuEnglish";
             mnuEnglish.Text = "English";
+            mnuEnglish.Click += mnuEnglish_Click;
 
             //
             // mnuFrench
             //
             mnuFrench.Name = "mnuFrench";
             mnuFrench.Text = "Français";
-            
-            mnuEnglish.Click += mnuEnglish_Click;
             mnuFrench.Click += mnuFrench_Click;
+
+            //
+            // mnuSpanish
+            //
+            mnuSpanish.Name = "mnuSpanish";
+            mnuSpanish.Text = "Español";
+            mnuSpanish.Click += mnuSpanish_Click;
+
             // 
             // lblGameList
             // 
@@ -547,6 +556,7 @@
         private ToolStripMenuItem mnuLanguage;
         private ToolStripMenuItem mnuEnglish;
         private ToolStripMenuItem mnuFrench;
+        private ToolStripMenuItem mnuSpanish;
 
 
         private ToolStripMenuItem mnuFile;

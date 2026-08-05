@@ -184,31 +184,43 @@ public partial class MainForm : Form
         // Titre de la fenêtre
         Text = L.ApplicationTitle;
     }
-   
-      private void mnuEnglish_Click(object? sender, EventArgs e)
-    {
-        LocalizationService.SetLanguage(English.Strings);
 
+    private void mnuEnglish_Click(object? sender, EventArgs e)
+    {
         Properties.Settings.Default.Language = "English";
         Properties.Settings.Default.Save();
+
+        LocalizationService.SetLanguage(English.Strings);
     }
 
     private void UpdateLanguageMenu()
     {
-        bool isEnglish =
+        mnuEnglish.Checked =
             Properties.Settings.Default.Language == "English";
 
-        mnuEnglish.Checked = isEnglish;
-        mnuFrench.Checked = !isEnglish;
+        mnuFrench.Checked =
+            Properties.Settings.Default.Language == "French";
+
+        mnuSpanish.Checked =
+            Properties.Settings.Default.Language == "Spanish";
+    }
+
+    private void mnuSpanish_Click(object? sender, EventArgs e)
+    {
+        Properties.Settings.Default.Language = "Spanish";
+        Properties.Settings.Default.Save();
+
+        LocalizationService.SetLanguage(Spanish.Strings);
     }
 
     private void mnuFrench_Click(object? sender, EventArgs e)
     {
-        LocalizationService.SetLanguage(French.Strings);
-
         Properties.Settings.Default.Language = "French";
         Properties.Settings.Default.Save();
+
+        LocalizationService.SetLanguage(French.Strings);
     }
+
 
     private void SearchBox_KeyDown(object? sender, KeyEventArgs e)
     {
