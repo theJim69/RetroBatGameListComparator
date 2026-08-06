@@ -11,8 +11,13 @@ public static class Spanish
 // =========================================================
 
 { "MenuFile", "Archivo" },
+{ "MenuExit", "Salir" },
 { "MenuLanguage", "Idioma" },
 { "MenuHelp", "Ayuda" },
+{ "MenuAbout", "A cerca..." },
+{ "MenuGitHub", "Projecto GitHub" },
+{ "MenuCheckUpdates", "Buscar actualizaciones." },
+
 
 { "Open", "Abrir" },
 { "Exit", "Salir" },
@@ -187,6 +192,7 @@ public static class Spanish
 
 // ===== File Dialogs =====
 
+{ "GameListFilter", "GameList.xml|gamelist.xml|XML files (*.xml)|*.xml|Todas las carpetas (*.*)|*.*" },
 { "RomFolderDescription", "Seleccione la carpeta de ROMs" },
 
 { "TxtFilter", "Archivos de texto (*.txt)|*.txt" },
