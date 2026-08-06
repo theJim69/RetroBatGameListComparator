@@ -114,6 +114,7 @@ public class XmlReaderService
 
             result.Games.Add(
                 new RomEntry
+
                 {
                     FileName =
                         Path.GetFileName(relativePath),

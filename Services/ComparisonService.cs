@@ -80,7 +80,13 @@ public class ComparisonService
 
         foreach (RomEntry rom in xml)
         {
+            // Hidden games are ignored.
             if (gameList.HiddenFiles.Contains(rom.FileName))
+                continue;
+
+            // MultiDisk child files are ignored and must never
+            // appear as "Missing from Disk".
+            if (gameList.MultiDiskFiles.Contains(rom.FileName))
                 continue;
 
             if (!diskPaths.Contains(

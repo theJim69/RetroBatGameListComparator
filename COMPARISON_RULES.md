@@ -250,11 +250,12 @@ A ROM is reported as **Missing from XML** when:
 
 # Missing from Disk
 
-A game is reported as **Missing from Disk** when:
+A game is reported as **Missing from Disk** only when:
 
-- it exists in the GameList
-- it is not Hidden
-- its ROM cannot be found on disk
+- it exists in the GameList;
+- it is not Hidden;
+- it is not a MultiDisk child;
+- its ROM cannot be found on disk.
 
 ---
 
@@ -298,7 +299,7 @@ A validated ROM exists both on disk and inside the GameList.
 
 # Comparison Results
 
-At the end of the comparison, every ROM belongs to one of three categories.
+At the end of the comparison, every entry belongs to one of the following categories:
 
 ## ✔ Valid
 
@@ -312,7 +313,11 @@ The ROM exists on disk but has no corresponding GameList entry.
 
 The GameList references a ROM that cannot be found on disk.
 
-These three categories represent every possible comparison result.
+## ⏭ Ignored
+
+Hidden games and MultiDisk child files are intentionally excluded from the comparison and therefore never reported as missing.
+
+These four categories represent every possible comparison result.
 
 ---
 
