@@ -335,5 +335,21 @@ public static class French
 { "HintDoubleClick", "💡 Astuce : Double-cliquez sur une ROM pour ouvrir son emplacement ou sa GameList.xml." },
 
 { "MenuLanguage", "Langue" },
+
+// ==========================================================
+// AUTRES 
+// ==========================================================
+
+{"OpenGameList", "📋 Ouvrir GameList.xml" },
+
+{"NotGame", "ZZZ(NotGame): {0}" },
+
+{ "NotGameTooltip",
+@"ScreenScraper identifie parfois certaines ROMs valides comme n'étant pas des jeux.
+
+Dans ce cas, le nom est remplacé par ""ZZZ(NotGame):..."" et la balise <hidden> du fichier gamelist.xml est automatiquement définie sur true, ce qui masque le jeu dans RetroBat.
+
+Il s'agit d'une limitation connue de l'intégration des métadonnées de ScreenScraper." },
+
     };
 }

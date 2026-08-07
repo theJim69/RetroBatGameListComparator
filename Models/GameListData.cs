@@ -47,4 +47,12 @@ public class GameListData
     /// </summary>
     public int HiddenIgnoredCount =>
         HiddenFiles.Count;
+
+    /// <summary>
+    /// Nombre de jeux ScreenScraper identifiés comme
+    /// "ZZZ(notgame)".
+    /// </summary>
+    public int NotGameCount { get; set; }
+
+    public List<RomEntry> NotGameEntries { get; } = new();
 }

@@ -32,6 +32,11 @@ public class ComparisonService
         result.HiddenIgnoredCount =
             gameList.HiddenIgnoredCount;
 
+        // Nombre de jeux ScreenScraper identifiés comme
+        // "ZZZ(notgame)"
+        result.NotGameCount =
+            gameList.NotGameCount;
+
         //----------------------------------------------------------
         // Préparation des HashSet
         //----------------------------------------------------------

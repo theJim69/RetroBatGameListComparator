@@ -336,5 +336,20 @@ public static class English
 
 { "MenuLanguage", "Language" },
 
+// ==========================================================
+// AUTRES 
+// ==========================================================
+
+{"OpenGameList", "📋 Open GameList.xml" },
+
+{"NotGame", "ZZZ(NotGame): {0}" },
+
+{ "NotGameTooltip",
+@"ScreenScraper sometimes identifies valid ROMs as non-game entries.
+
+When this happens, the game is renamed to ""ZZZ(NotGame):..."" and the <hidden> tag in gamelist.xml is automatically set to true, causing the game to be hidden in RetroBat.
+
+This is a known limitation of the ScreenScraper metadata integration." },
+
     };
 }

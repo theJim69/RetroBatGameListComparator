@@ -39,7 +39,15 @@ public partial class MainForm : Form
 
         UpdateLanguageMenu();
 
+        AcceptButton = btnCompare;
+
         LocalizationService.LanguageChanged += OnLanguageChanged;
+
+        toolTip1.IsBalloon = true;
+        toolTip1.ToolTipIcon = ToolTipIcon.Info;
+        toolTip1.AutoPopDelay = 12000;
+        toolTip1.InitialDelay = 500;
+        toolTip1.ReshowDelay = 100;
 
         AllowDrop = true;
 
@@ -105,7 +113,7 @@ public partial class MainForm : Form
 
         // Vérifie les mises à jour après l'affichage de la fenêtre
         Shown += async (_, _) => await CheckForUpdatesAsync();
-        }
+    }
 
     private void OnLanguageChanged(object? sender, EventArgs e)
     {
@@ -135,6 +143,12 @@ public partial class MainForm : Form
         lblRomFolder.Text = L.LabelRomFolder;
         lblGameList.Text = L.LabelGameList;
         lblExtension.Text = L.LabelExtensions;
+        lblNotGame.Text = string.Format(L.NotGame, 0);
+        toolTip1.ToolTipTitle = L.NotGame;
+
+        toolTip1.SetToolTip(
+            lblNotGame,
+            L.NotGameTooltip);
 
         // Boutons
         btnCompare.Text = L.ButtonCompare;
@@ -724,7 +738,7 @@ public partial class MainForm : Form
             extensions,
             chkRecursive.Checked);
 
-               //----------------------------------------------------------
+        //----------------------------------------------------------
         // Lecture du XML
         //----------------------------------------------------------
 
@@ -821,10 +835,12 @@ public partial class MainForm : Form
         lblMultiDiskIgnored.Text =
             string.Format(L.IgnoredMultiDisk, result.MultiDiskIgnoredCount);
 
+        lblNotGame.Text = string.Format(L.NotGame, result.NotGameCount);
+
         lblHiddenIgnored.Text =
             string.Format(L.HiddenGames, result.HiddenIgnoredCount);
 
-        lblMissingXml.Text =
+          lblMissingXml.Text =
             string.Format(L.MissingXml, result.MissingFromXml.Count);
 
         lblMissingDisk.Text =
@@ -1054,6 +1070,11 @@ public partial class MainForm : Form
     }
 
     private void grpStatistics_Enter(object sender, EventArgs e)
+    {
+
+    }
+
+    private void lblNotGame_Click(object sender, EventArgs e)
     {
 
     }
