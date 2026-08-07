@@ -16,7 +16,7 @@ public partial class MainForm : Form
     private readonly XmlReaderService _xmlReaderService = new();
     private readonly ComparisonService _comparisonService = new();
     private readonly ExportService _exportService = new();
-
+    private readonly NotGameReportService _notGameReportService = new();
     private readonly UpdateService _updateService = new();
 
     private ComparisonResult? _lastResult;
@@ -121,11 +121,71 @@ public partial class MainForm : Form
         UpdateLanguageMenu();
     }
 
+    private void mnuNotGameList_Click(object sender, EventArgs e)
+    {
+        if (_lastResult == null)
+            return;
+
+        _notGameReportService.CreateReport(_lastResult);
+    }
+
+    private void mnuNotGameFix_Click(object sender, EventArgs e)
+    {
+        if (_lastResult == null)
+            return;
+
+        if (!ConfirmNotGameRepair())
+            return;
+
+        NotGameRepairService repair = new();
+
+        NotGameRepairResult repairResult =
+            repair.Repair(_lastResult.GameListPath);
+
+        // Rien n'a été corrigé
+        if (repairResult.RepairedCount == 0)
+        {
+            MessageBox.Show(
+                L.NoNotGameDetected,
+                L.ApplicationTitle,
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information);
+
+            return;
+        }
+
+        // Rafraîchit automatiquement les résultats
+        RunComparison();
+
+        // Affiche le résumé
+        MessageBox.Show(
+            string.Format(
+                L.RepairCompleted,
+                repairResult.RepairedCount,
+                repairResult.BackupFile),
+            L.ApplicationTitle,
+            MessageBoxButtons.OK,
+            MessageBoxIcon.Information);
+    }
     protected override void OnFormClosed(FormClosedEventArgs e)
     {
         LocalizationService.LanguageChanged -= OnLanguageChanged;
 
         base.OnFormClosed(e);
+    }
+
+    private bool ConfirmNotGameRepair()
+    {
+        string message =
+            L.NotGameRepairConfirmation;
+
+        return MessageBox.Show(
+            message,
+            "ZZZ(NotGame)",
+            MessageBoxButtons.YesNo,
+            MessageBoxIcon.Warning,
+            MessageBoxDefaultButton.Button2)
+            == DialogResult.Yes;
     }
 
     private void ApplyLocalization()
@@ -689,6 +749,11 @@ public partial class MainForm : Form
     }
     private void btnCompare_Click(object sender, EventArgs e)
     {
+        RunComparison();
+    }
+
+    private void RunComparison()
+    {
         progressBar.Visible = true;
         label1.Visible = true;
 
@@ -836,6 +901,18 @@ public partial class MainForm : Form
             string.Format(L.IgnoredMultiDisk, result.MultiDiskIgnoredCount);
 
         lblNotGame.Text = string.Format(L.NotGame, result.NotGameCount);
+
+        // Active le menu ZZZ(NotGame) uniquement si des ROMs sont détectées
+        ddNotGame.Enabled = result.NotGameCount > 0;
+
+        if (result.NotGameCount > 0)
+        {
+            ddNotGame.ForeColor = Color.Black;
+        }
+        else
+        {
+            ddNotGame.ForeColor = SystemColors.GrayText;
+        }
 
         lblHiddenIgnored.Text =
             string.Format(L.HiddenGames, result.HiddenIgnoredCount);

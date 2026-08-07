@@ -22,6 +22,15 @@ public class ComparisonResult
     /// </summary>
     public int NotGameCount { get; set; }
 
+    /// <summary>
+    /// Liste des entrées ScreenScraper ZZZ(NotGame).
+    /// </summary>
+    public List<RomEntry> NotGameEntries { get; set; } = new();
+
+    public string RomFolder { get; set; } = string.Empty;
+
+    public string GameListPath { get; set; } = string.Empty;
+
     public List<RomEntry> MissingFromXml { get; set; } = new();
 
     public List<RomEntry> MissingFromDisk { get; set; } = new();

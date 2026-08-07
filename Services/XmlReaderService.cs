@@ -209,6 +209,9 @@ public class XmlReaderService
             }
         }
 
+        result.RomFolder = romFolder;
+        result.GameListPath = xmlFile;
+
         return result;
     }
     private static string NormalizePath(string path)

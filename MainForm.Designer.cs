@@ -65,6 +65,9 @@
             txtSearchXml = new TextBox();
             txtSearchDisk = new TextBox();
             toolTip1 = new ToolTip(components);
+            ddNotGame = new ToolStripDropDownButton();
+            mnuNotGameList = new ToolStripMenuItem();
+            mnuNotGameFix = new ToolStripMenuItem();
             menuStrip1.SuspendLayout();
             grpStatistics.SuspendLayout();
             SuspendLayout();
@@ -260,7 +263,13 @@
             // 
             // menuStrip1
             // 
-            menuStrip1.Items.AddRange(new ToolStripItem[] { mnuFile, mnuLanguage, mnuHelp });
+            menuStrip1.Items.AddRange(new ToolStripItem[]
+{
+    mnuFile,
+    mnuLanguage,
+    mnuHelp,
+    ddNotGame
+});
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
             menuStrip1.Size = new Size(634, 24);
@@ -487,6 +496,32 @@
             txtSearchDisk.Size = new Size(165, 23);
             txtSearchDisk.TabIndex = 22;
             txtSearchDisk.TextChanged += textBox2_TextChanged;
+            //
+            // ddNotGame
+            //
+            ddNotGame.Alignment = ToolStripItemAlignment.Right;
+            ddNotGame.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            ddNotGame.Enabled = false;
+            ddNotGame.Text = "ZZZ(NotGame)";
+
+            ddNotGame.DropDownItems.AddRange(new ToolStripItem[]
+            {
+    mnuNotGameList,
+    mnuNotGameFix
+            });
+
+            //
+            // mnuNotGameList
+            //
+            mnuNotGameList.Text = "📄 List ROMs";
+            mnuNotGameList.Click += mnuNotGameList_Click;
+
+            //
+            // mnuNotGameFix
+            //
+            mnuNotGameFix.Text = "🛠 Fix ROMs";
+            mnuNotGameFix.Click += mnuNotGameFix_Click;
+
             // 
             // MainForm
             // 
@@ -582,5 +617,9 @@
         private Label lblNotGame;
         private Label lblMultiDiskIgnored;
         private System.Windows.Forms.ToolTip toolTip1;
+
+        private ToolStripDropDownButton ddNotGame;
+        private ToolStripMenuItem mnuNotGameList;
+        private ToolStripMenuItem mnuNotGameFix;
     }
 }

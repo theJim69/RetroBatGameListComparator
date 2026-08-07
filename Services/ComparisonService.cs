@@ -36,6 +36,10 @@ public class ComparisonService
         // "ZZZ(notgame)"
         result.NotGameCount =
             gameList.NotGameCount;
+        result.NotGameEntries.AddRange(gameList.NotGameEntries);
+
+        result.RomFolder = gameList.RomFolder;
+        result.GameListPath = gameList.GameListPath;
 
         //----------------------------------------------------------
         // Préparation des HashSet

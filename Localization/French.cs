@@ -351,5 +351,58 @@ Dans ce cas, le nom est remplacé par ""ZZZ(NotGame):..."" et la balise <hidden>
 
 Il s'agit d'une limitation connue de l'intégration des métadonnées de ScreenScraper." },
 
+{ "NotGameReportTitle", "Rapport ScreenScraper ZZZ(NotGame)" },
+
+{ "NotGameReportDescription",
+@"Ce rapport liste les ROMs que ScreenScraper a identifiées à tort comme n'étant pas des jeux.
+
+Ces ROMs ont été automatiquement renommées en ""ZZZ(NotGame):..."" et marquées comme cachées
+(<hidden>true</hidden>) dans le fichier GameList.xml.
+
+Il s'agit d'une limitation connue de l'intégration des métadonnées de ScreenScraper." },
+
+{ "NotGameReportDetectedEntries", "Entrées détectées" },
+
+{ "NotGameReportGameName", "Nom du jeu" },
+
+{ "NotGameReportRomFile", "Fichier ROM" },
+
+{ "NotGameReportRelativePath", "Chemin relatif" },
+
+{ "NotGameReportEnd", "Fin du rapport" },
+
+{ "GeneratedBy", "Généré par" },
+
+{ "NotGamePlatformSummary", "Résumé de la plateforme" },
+
+{
+    "NotGameRepairConfirmation",
+@"Cette opération va corriger toutes les ROMs identifiées comme ZZZ(NotGame).
+
+Les modifications suivantes seront appliquées :
+
+• suppression du préfixe ""ZZZ(NotGame):""
+• remplacement de <hidden>true</hidden> par <hidden>false</hidden>
+
+Avant toute modification, une sauvegarde du fichier GameList.xml sera créée automatiquement.
+
+Voulez-vous continuer ?"
+},
+
+{
+    "RepairCompleted",
+@"Correction terminée avec succès.
+
+ROMs corrigées : {0}
+
+Sauvegarde créée :
+
+{1}"
+},
+{
+    "NoNotGameDetected",
+    "Aucune ROM ZZZ(NotGame) n'a été trouvée."
+},
+
     };
 }
