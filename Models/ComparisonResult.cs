@@ -16,12 +16,17 @@ public class ComparisonResult
 
     public int HiddenIgnoredCount { get; set; }
 
+    /// <summary>
+    /// Nombre d'entrées ScreenScraper identifiées comme
+    /// "ZZZ(notgame)".
+    /// </summary>
+    public int NotGameCount { get; set; }
+
     public List<RomEntry> MissingFromXml { get; set; } = new();
 
     public List<RomEntry> MissingFromDisk { get; set; } = new();
 
     public List<RomEntry> AllDiskRoms { get; set; } = new();
 
-    // <-- AJOUT
     public List<RomEntry> XmlGames { get; set; } = new();
 }

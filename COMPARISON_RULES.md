@@ -259,6 +259,26 @@ A game is reported as **Missing from Disk** only when:
 
 ---
 
+## ZZZ(NotGame)
+
+Some ROMs may be intentionally renamed by ScreenScraper using the following format:
+
+<name>ZZZ(notgame):Game Name</name>
+
+When this entry is also marked as:
+
+<hidden>true</hidden>
+
+it is identified as a **ZZZ(NotGame)** entry.
+
+These entries:
+
+- remain counted as Hidden Games;
+- are additionally reported in the **ZZZ(NotGame)** statistic;
+- are still excluded from Platform Games because they are hidden.
+
+---
+
 # Platform Game Count
 
 The value displayed as:

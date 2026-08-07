@@ -51,6 +51,8 @@ public class XmlReaderService
                     || value == "1";
             }
 
+                
+
             //---------------------------------------------------------
             // multidisk
             //---------------------------------------------------------
@@ -130,8 +132,9 @@ public class XmlReaderService
                     GameListPath =
                         xmlFile,
 
-                    ExistsInGameList = true
-                });
+                    ExistsInGameList = true,
+
+                   });
         }
 
         result.Games.Sort(
@@ -161,6 +164,50 @@ public class XmlReaderService
 
                 return lines;
             }));
+
+        //---------------------------------------------------------
+        // ZZZ(NotGame) statistics
+        //---------------------------------------------------------
+
+        foreach (XElement game in document.Descendants("game"))
+        {
+            XElement? hiddenElement = game.Element("hidden");
+            XElement? nameElement = game.Element("name");
+
+            if (hiddenElement == null || nameElement == null)
+                continue;
+
+            string name = nameElement.Value.Trim();
+
+            bool isHidden =
+                hiddenElement.Value.Trim()
+                    .Equals("true", StringComparison.OrdinalIgnoreCase);
+
+            if (isHidden &&
+     name.StartsWith("ZZZ(", StringComparison.OrdinalIgnoreCase) &&
+     name.Contains("notgame", StringComparison.OrdinalIgnoreCase))
+            {
+                result.NotGameCount++;
+
+                string relativePath =
+                    game.Element("path")?
+                        .Value
+                        .Trim()
+                        .Replace("./", "")
+                        .Replace('\\', '/')
+                    ?? string.Empty;
+
+                result.NotGameEntries.Add(new RomEntry
+                {
+                    FileName = Path.GetFileName(relativePath),
+                    RelativePath = relativePath,
+                    FullPath = Path.Combine(romFolder, relativePath),
+                    GameListPath = xmlFile,
+                    ExistsInGameList = true,
+                    IsNotGame = true
+                });
+            }
+        }
 
         return result;
     }

@@ -347,5 +347,21 @@ public static class Spanish
 
 { "HintDoubleClick", "💡 Consejo: haga doble clic en una ROM para abrir su carpeta o su GameList.xml." },
 
+// ==========================================================
+// AUTRES 
+// ==========================================================
+
+{"OpenGameList", "📋 Abrir GameList.xml" },
+
+{"NotGame", "ZZZ(NotGame): {0}" },
+
+{ "NotGameTooltip",
+@"En ocasiones ScreenScraper identifica ROMs válidas como si no fueran juegos.
+
+Cuando esto ocurre, el nombre pasa a ser ""ZZZ(NotGame):..."" y la etiqueta <hidden> del archivo gamelist.xml se establece automáticamente en true, ocultando el juego en RetroBat.
+
+Se trata de una limitación conocida de la integración de metadatos de ScreenScraper." },
+
+
     };
 }

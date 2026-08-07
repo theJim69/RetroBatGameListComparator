@@ -14,6 +14,7 @@ public static class ListViewContextMenuHelper
         listView.KeyDown += ListView_KeyDown;
 
         ContextMenuStrip menu = new();
+        bool isMissingFromXml = listView.Name == "lvMissingFromXml";
 
         ToolStripMenuItem copyName =
             new(L.CopyName);
@@ -24,14 +25,23 @@ public static class ListViewContextMenuHelper
         ToolStripMenuItem openFolder =
             new(L.OpenFolder);
 
+        ToolStripMenuItem openGameList =
+    new(L.OpenGameList);
+
         menu.Items.Add(copyName);
         menu.Items.Add(copyFull);
         menu.Items.Add(new ToolStripSeparator());
         menu.Items.Add(openFolder);
 
+        if (!isMissingFromXml)
+        {
+            menu.Items.Add(openGameList);
+        }
+
         copyName.Click += (_, _) => CopyName(listView);
         copyFull.Click += (_, _) => CopyFullPath(listView);
         openFolder.Click += (_, _) => OpenFolder(listView);
+        openGameList.Click += (_, _) => OpenGameList(listView);
 
         listView.MouseUp += (_, e) =>
         {
@@ -123,5 +133,41 @@ public static class ListViewContextMenuHelper
             Arguments = $"/select,\"{rom.FullPath}\"",
             UseShellExecute = true
         });
+    }
+    private static void OpenGameList(
+    ListView listView)
+    {
+        RomEntry? rom = GetSelectedRom(listView);
+
+        if (rom == null)
+            return;
+
+        if (!File.Exists(rom.GameListPath))
+        {
+            MessageBox.Show(
+                L.GameListNotFound,
+                L.ApplicationTitle,
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Warning);
+
+            return;
+        }
+
+        try
+        {
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = rom.GameListPath,
+                UseShellExecute = true
+            });
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show(
+                string.Format(L.CannotOpenFile, ex.Message),
+                L.ApplicationTitle,
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Error);
+        }
     }
 }

@@ -278,4 +278,9 @@ public static class L
 
     public static string MenuLanguage => LocalizationService.Get(nameof(MenuLanguage));
 
+    public static string OpenGameList => LocalizationService.Get(nameof(OpenGameList));
+
+    public static string NotGame => LocalizationService.Get(nameof(NotGame));
+        public static string NotGameTooltip =>
+    LocalizationService.Get(nameof(NotGameTooltip));
 }

@@ -16,6 +16,7 @@
 
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             lblRomFolder = new Label();
             txtRomFolder = new TextBox();
             btnBrowseRomFolder = new Button();
@@ -40,12 +41,11 @@
             menuStrip1 = new MenuStrip();
             mnuFile = new ToolStripMenuItem();
             mnuExit = new ToolStripMenuItem();
-            mnuHelp = new ToolStripMenuItem();
             mnuLanguage = new ToolStripMenuItem();
-
             mnuEnglish = new ToolStripMenuItem();
             mnuFrench = new ToolStripMenuItem();
             mnuSpanish = new ToolStripMenuItem();
+            mnuHelp = new ToolStripMenuItem();
             mnuGitHub = new ToolStripMenuItem();
             toolStripSeparator1 = new ToolStripSeparator();
             mnuAbout = new ToolStripMenuItem();
@@ -59,10 +59,12 @@
             progressBar = new ProgressBar();
             grpStatistics = new GroupBox();
             lblHiddenIgnored = new Label();
+            lblNotGame = new Label();
             lblMultiDiskIgnored = new Label();
             label1 = new Label();
             txtSearchXml = new TextBox();
             txtSearchDisk = new TextBox();
+            toolTip1 = new ToolTip(components);
             menuStrip1.SuspendLayout();
             grpStatistics.SuspendLayout();
             SuspendLayout();
@@ -94,41 +96,6 @@
             btnBrowseRomFolder.TabIndex = 2;
             btnBrowseRomFolder.Text = "...";
             btnBrowseRomFolder.Click += btnBrowseRomFolder_Click;
-            //
-            // mnuLanguage
-            //
-            mnuLanguage.DropDownItems.AddRange(new ToolStripItem[]
-            {
-            mnuEnglish,
-            mnuFrench,
-            mnuSpanish
-            });
-
-            mnuLanguage.Name = "mnuLanguage";
-            mnuLanguage.Size = new Size(82, 24);
-            mnuLanguage.Text = "Language";
-
-            //
-            // mnuEnglish
-            //
-            mnuEnglish.Name = "mnuEnglish";
-            mnuEnglish.Text = "English";
-            mnuEnglish.Click += mnuEnglish_Click;
-
-            //
-            // mnuFrench
-            //
-            mnuFrench.Name = "mnuFrench";
-            mnuFrench.Text = "Français";
-            mnuFrench.Click += mnuFrench_Click;
-
-            //
-            // mnuSpanish
-            //
-            mnuSpanish.Name = "mnuSpanish";
-            mnuSpanish.Text = "Español";
-            mnuSpanish.Click += mnuSpanish_Click;
-
             // 
             // lblGameList
             // 
@@ -210,7 +177,7 @@
             lvMissingFromXml.Columns.AddRange(new ColumnHeader[] { colXmlRom, colXmlFolder });
             lvMissingFromXml.FullRowSelect = true;
             lvMissingFromXml.GridLines = true;
-            lvMissingFromXml.Location = new Point(13, 315);
+            lvMissingFromXml.Location = new Point(13, 330);
             lvMissingFromXml.Margin = new Padding(3, 2, 3, 2);
             lvMissingFromXml.Name = "lvMissingFromXml";
             lvMissingFromXml.Size = new Size(298, 166);
@@ -232,7 +199,7 @@
             // lblMissingXmlTitle
             // 
             lblMissingXmlTitle.AutoSize = true;
-            lblMissingXmlTitle.Location = new Point(13, 294);
+            lblMissingXmlTitle.Location = new Point(13, 309);
             lblMissingXmlTitle.Name = "lblMissingXmlTitle";
             lblMissingXmlTitle.Size = new Size(99, 15);
             lblMissingXmlTitle.TabIndex = 10;
@@ -241,7 +208,7 @@
             // lblMissingDiskTitle
             // 
             lblMissingDiskTitle.AutoSize = true;
-            lblMissingDiskTitle.Location = new Point(319, 293);
+            lblMissingDiskTitle.Location = new Point(319, 308);
             lblMissingDiskTitle.Name = "lblMissingDiskTitle";
             lblMissingDiskTitle.Size = new Size(110, 15);
             lblMissingDiskTitle.TabIndex = 11;
@@ -252,7 +219,7 @@
             lvMissingFromDisk.Columns.AddRange(new ColumnHeader[] { colDiskRom, colDiskFolder });
             lvMissingFromDisk.FullRowSelect = true;
             lvMissingFromDisk.GridLines = true;
-            lvMissingFromDisk.Location = new Point(319, 315);
+            lvMissingFromDisk.Location = new Point(319, 330);
             lvMissingFromDisk.Margin = new Padding(3, 2, 3, 2);
             lvMissingFromDisk.Name = "lvMissingFromDisk";
             lvMissingFromDisk.Size = new Size(298, 166);
@@ -273,7 +240,7 @@
             // 
             // btnExportTxt
             // 
-            btnExportTxt.Location = new Point(175, 517);
+            btnExportTxt.Location = new Point(175, 534);
             btnExportTxt.Margin = new Padding(3, 2, 3, 2);
             btnExportTxt.Name = "btnExportTxt";
             btnExportTxt.Size = new Size(105, 26);
@@ -283,7 +250,7 @@
             // 
             // btnExportCsv
             // 
-            btnExportCsv.Location = new Point(341, 517);
+            btnExportCsv.Location = new Point(341, 534);
             btnExportCsv.Margin = new Padding(3, 2, 3, 2);
             btnExportCsv.Name = "btnExportCsv";
             btnExportCsv.Size = new Size(105, 26);
@@ -293,12 +260,7 @@
             // 
             // menuStrip1
             // 
-            menuStrip1.Items.AddRange(new ToolStripItem[]
-{
-    mnuFile,
-    mnuLanguage,
-    mnuHelp
-});
+            menuStrip1.Items.AddRange(new ToolStripItem[] { mnuFile, mnuLanguage, mnuHelp });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
             menuStrip1.Size = new Size(634, 24);
@@ -318,6 +280,34 @@
             mnuExit.Size = new Size(111, 22);
             mnuExit.Text = "&Quitter";
             mnuExit.Click += mnuExit_Click;
+            // 
+            // mnuLanguage
+            // 
+            mnuLanguage.DropDownItems.AddRange(new ToolStripItem[] { mnuEnglish, mnuFrench, mnuSpanish });
+            mnuLanguage.Name = "mnuLanguage";
+            mnuLanguage.Size = new Size(71, 20);
+            mnuLanguage.Text = "Language";
+            // 
+            // mnuEnglish
+            // 
+            mnuEnglish.Name = "mnuEnglish";
+            mnuEnglish.Size = new Size(117, 22);
+            mnuEnglish.Text = "English";
+            mnuEnglish.Click += mnuEnglish_Click;
+            // 
+            // mnuFrench
+            // 
+            mnuFrench.Name = "mnuFrench";
+            mnuFrench.Size = new Size(117, 22);
+            mnuFrench.Text = "Français";
+            mnuFrench.Click += mnuFrench_Click;
+            // 
+            // mnuSpanish
+            // 
+            mnuSpanish.Name = "mnuSpanish";
+            mnuSpanish.Size = new Size(117, 22);
+            mnuSpanish.Text = "Español";
+            mnuSpanish.Click += mnuSpanish_Click;
             // 
             // mnuHelp
             // 
@@ -355,7 +345,7 @@
             // lblHint
             // 
             lblHint.ForeColor = SystemColors.GrayText;
-            lblHint.Location = new Point(18, 492);
+            lblHint.Location = new Point(18, 509);
             lblHint.Name = "lblHint";
             lblHint.Size = new Size(594, 18);
             lblHint.TabIndex = 20;
@@ -424,6 +414,7 @@
             // grpStatistics
             // 
             grpStatistics.Controls.Add(lblHiddenIgnored);
+            grpStatistics.Controls.Add(lblNotGame);
             grpStatistics.Controls.Add(lblMultiDiskIgnored);
             grpStatistics.Controls.Add(label1);
             grpStatistics.Controls.Add(progressBar);
@@ -436,7 +427,7 @@
             grpStatistics.Margin = new Padding(3, 2, 3, 2);
             grpStatistics.Name = "grpStatistics";
             grpStatistics.Padding = new Padding(3, 2, 3, 2);
-            grpStatistics.Size = new Size(604, 103);
+            grpStatistics.Size = new Size(604, 118);
             grpStatistics.TabIndex = 10;
             grpStatistics.TabStop = false;
             grpStatistics.Text = "Statistiques";
@@ -450,6 +441,16 @@
             lblHiddenIgnored.Size = new Size(83, 15);
             lblHiddenIgnored.TabIndex = 24;
             lblHiddenIgnored.Text = "Jeux cachés : 0";
+            // 
+            // lblNotGame
+            // 
+            lblNotGame.AutoSize = true;
+            lblNotGame.Location = new Point(14, 93);
+            lblNotGame.Name = "lblNotGame";
+            lblNotGame.Size = new Size(99, 15);
+            lblNotGame.TabIndex = 25;
+            lblNotGame.Text = "ZZZ(NotGame): 0";
+            lblNotGame.Click += lblNotGame_Click;
             // 
             // lblMultiDiskIgnored
             // 
@@ -472,7 +473,7 @@
             // 
             // txtSearchXml
             // 
-            txtSearchXml.Location = new Point(135, 290);
+            txtSearchXml.Location = new Point(135, 305);
             txtSearchXml.Name = "txtSearchXml";
             txtSearchXml.PlaceholderText = "🔍 Rechercher...";
             txtSearchXml.Size = new Size(176, 23);
@@ -480,7 +481,7 @@
             // 
             // txtSearchDisk
             // 
-            txtSearchDisk.Location = new Point(452, 289);
+            txtSearchDisk.Location = new Point(452, 304);
             txtSearchDisk.Name = "txtSearchDisk";
             txtSearchDisk.PlaceholderText = "🔍 Rechercher...";
             txtSearchDisk.Size = new Size(165, 23);
@@ -491,7 +492,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(634, 553);
+            ClientSize = new Size(634, 605);
             Controls.Add(txtSearchDisk);
             Controls.Add(txtSearchXml);
             Controls.Add(menuStrip1);
@@ -578,6 +579,8 @@
         private TextBox txtSearchDisk;
         private ToolStripMenuItem mnuCheckUpdates;
         private Label lblHiddenIgnored;
+        private Label lblNotGame;
         private Label lblMultiDiskIgnored;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }

@@ -34,4 +34,6 @@ public class RomEntry
     /// Indique si la ROM est présente dans le gamelist.xml.
     /// </summary>
     public bool ExistsInGameList { get; set; }
+
+    public bool IsNotGame { get; set; }
 }
