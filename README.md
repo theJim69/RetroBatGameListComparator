@@ -21,10 +21,13 @@ Detect missing ROMs, obsolete XML entries, and keep your RetroBat collections pe
 ## ⭐ Highlights
 
 - ✔ Accurate comparison engine
-- ✔ Hidden & MultiDisk aware
-- ✔ Drag & Drop support
-- ✔ TXT / CSV exports
 - ✔ GameList diagnostics
+- ✔ Hidden, MultiDisk & Special Folder aware
+- ✔ ScreenScraper ZZZ(NotGame) detection
+- ✔ One-click ZZZ(NotGame) repair
+- ✔ Automatic GameList backup
+- ✔ TXT / CSV / Diagnostic reports
+- ✔ Drag & Drop support
 - ✔ English / French / Spanish
 - ✔ Automatic update checker
 
@@ -52,10 +55,30 @@ Unlike a simple file comparison tool, it understands how **RetroBat** and **Emul
 
 ---
 
+# 🆕 What's New in v2.1.0
+
+Version **2.1.0** introduces the first complete workflow for managing ScreenScraper **ZZZ(NotGame)** entries.
+
+### New Features
+
+- ✅ Detect ScreenScraper `ZZZ(NotGame)` entries
+- ✅ Dedicated ZZZ(NotGame) counter
+- ✅ Localized tooltip
+- ✅ Dedicated TXT report
+- ✅ One-click automatic repair
+- ✅ Automatic GameList backup
+- ✅ Automatic comparison refresh
+- ✅ Improved comparison accuracy
+- ✅ Better handling of RetroBat special folders
+
+---
+
 ## 🎮 RetroBat / EmulationStation Support
 
 - ✅ Hidden games (`<hidden>`) are automatically ignored
 - ✅ MultiDisk child files (`<multidisk>`) are automatically ignored
+- ✅ Special RetroBat folders (`+homebrew`, `+prototype`, ...)
+- ✅ ScreenScraper ZZZ(NotGame) detection
 - ✅ Correct platform game count
 - ✅ Relative path comparison
 
@@ -90,6 +113,21 @@ Unlike a simple file comparison tool, it understands how **RetroBat** and **Emul
 - ✅ TXT report
 - ✅ CSV report
 - ✅ GameList diagnostic report
+
+---
+
+## 🆕 ZZZ(NotGame) Report
+
+A dedicated report can now be generated for ScreenScraper
+**ZZZ(NotGame)** entries.
+
+The report includes:
+
+- Detected entries
+- ROM filename
+- Relative path
+- Platform statistics
+- Generation date
 
 ---
 
@@ -193,6 +231,22 @@ This prevents false positives and produces statistics that closely match the gam
 
 ---
 
+## Automatic Repairs
+
+RetroBat GameList Comparator can automatically repair
+ScreenScraper `ZZZ(NotGame)` entries.
+
+The repair process:
+
+- Removes the `ZZZ(NotGame):` prefix
+- Restores `<hidden>false</hidden>`
+- Creates an automatic backup
+- Refreshes the comparison automatically
+
+Every repair is completely safe thanks to the automatic backup.
+
+---
+
 # 🎯 Drag & Drop
 
 Simply drag:
@@ -239,12 +293,15 @@ The next major milestone will focus on the evolution of RetroBat GameList Compar
 
 Current priorities include:
 
-- Improved documentation
 - Release validation process
 - Collection management
 - Advanced diagnostics
 - XML maintenance tools
 - Batch operations
+- Enhanced GameList diagnostics
+- Metadata validation
+- Media verification
+- HTML reports
 
 ---
 
