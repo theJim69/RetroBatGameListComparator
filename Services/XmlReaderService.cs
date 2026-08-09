@@ -115,26 +115,22 @@ public class XmlReaderService
             //---------------------------------------------------------
 
             result.Games.Add(
-                new RomEntry
+     new RomEntry
+     {
+         FileName = Path.GetFileName(relativePath),
 
-                {
-                    FileName =
-                        Path.GetFileName(relativePath),
+         RelativePath = relativePath,
 
-                    RelativePath =
-                        relativePath,
+         FullPath = Path.Combine(
+             romFolder,
+             relativePath),
 
-                    FullPath =
-                        Path.Combine(
-                            romFolder,
-                            relativePath),
+         GameListPath = xmlFile,
 
-                    GameListPath =
-                        xmlFile,
+         ExistsInGameList = true,
 
-                    ExistsInGameList = true,
-
-                   });
+         IsFolder = !Path.HasExtension(relativePath)
+     });
         }
 
         result.Games.Sort(

@@ -41,4 +41,5 @@ public class RomEntry
     public bool ExistsInGameList { get; set; }
 
     public bool IsNotGame { get; set; }
+    public bool IsFolder { get; set; }
 }

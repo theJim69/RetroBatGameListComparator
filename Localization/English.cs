@@ -195,29 +195,32 @@ public static class English
 
 { "AboutTitle", "About" },
 { "AboutDescription",
-  "Compares the ROMs stored on disk with the entries in the GameList.xml file,\n" +
-  "detects differences and helps maintain RetroBat collections." },
+  "Professional GameList.xml\n" +
+  "validation and maintenance tool\n\n" +
+  "Designed specifically for RetroBat." },
 
-{ "Features", "Features" },
+{ "Features", "Key Features" },
 
 { "AboutFeatures",
-@"✔ Compare ROMs ↔ GameList.xml
-✔ Detect ROMs missing from XML
-✔ Detect ROMs missing from disk
-✔ Support multiple extensions (.zip, .7z, .chd...)
-✔ Search subfolders
-✔ Recursive scan
-✔ Instant extension search
-✔ Multiple extension selection
-✔ Automatic detection of new extensions
-✔ Open a ROM directly in Windows Explorer
-✔ Export results to TXT
-✔ Export results to CSV" },
+@"✔ ROM ↔ GameList.xml Comparison
+✔ Missing ROM Detection (Disk & XML)
+✔ Automatic Hidden ROM Support
+✔ MultiDisk ROM Support
+✔ Special Folder Support (+homebrew, +prototype...)
+✔ ScreenScraper ZZZ(NotGame) Detection
+✔ Automatic Extension Detection
+✔ Custom Extension Search
+✔ Recursive Folder Scan
+✔ One-click ROM Location
+✔ Automatic GameList Backup
+✔ TXT • CSV Export
+✔ GameList Diagnostics
+✔ English • Français • Español" },
 
 { "DevelopedBy", "Developed by\r\ntheJim" },
 
 { "AboutFooter",
-  "Version : {0}      Framework : .NET 8\r\n© 2026 theJim • Windows Forms • C#" },
+  "Built with .NET 8\r\nReleased under the MIT License\r\n© 2026 theJim" },
 
 { "Close", "Close" },
 

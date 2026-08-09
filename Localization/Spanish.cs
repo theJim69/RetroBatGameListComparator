@@ -208,29 +208,32 @@ public static class Spanish
 { "AboutTitle", "Acerca de" },
 
 { "AboutDescription",
-  "Compara las ROMs almacenadas en el disco con las entradas del archivo GameList.xml,\n" +
-  "detecta diferencias y facilita el mantenimiento de las colecciones RetroBat." },
+  "Herramienta profesional para validar\n" +
+  "y mantener archivos GameList.xml\n\n" +
+  "Diseñada especialmente para RetroBat." },
 
-{ "Features", "Características" },
+{ "Features", "Características principales" },
 
 { "AboutFeatures",
-@"✔ Comparación de ROMs ↔ GameList.xml
-✔ Detección de ROMs ausentes del XML
-✔ Detección de ROMs ausentes del disco
-✔ Compatibilidad con múltiples extensiones (.zip, .7z, .chd...)
-✔ Búsqueda en subcarpetas
-✔ Análisis recursivo
-✔ Búsqueda instantánea de extensiones
-✔ Selección múltiple de extensiones
-✔ Detección automática de nuevas extensiones
-✔ Abrir una ROM directamente en el Explorador de Windows
-✔ Exportación de resultados a TXT
-✔ Exportación de resultados a CSV" },
+@"✔ Comparación ROM ↔ GameList.xml
+✔ Detección de ROMs faltantes (Disco y XML)
+✔ Compatibilidad automática con ROMs Hidden
+✔ Compatibilidad con ROMs MultiDisk
+✔ Compatibilidad con carpetas especiales (+homebrew, +prototype...)
+✔ Detección de ZZZ(NotGame)
+✔ Detección automática de extensiones
+✔ Búsqueda de extensiones personalizadas
+✔ Análisis recursivo de subcarpetas
+✔ Apertura directa de una ROM
+✔ Copia de seguridad automática del GameList
+✔ Exportación TXT • CSV
+✔ Diagnóstico del GameList
+✔ Español • English • Français" },
 
 { "DevelopedBy", "Desarrollado por\r\ntheJim" },
 
 { "AboutFooter",
-  "Versión: {0}      Framework: .NET 8\r\n© 2026 theJim • Windows Forms • C#" },
+  "Desarrollado con .NET 8\r\nPublicado bajo licencia MIT\r\n© 2026 theJim" },
 
 { "Close", "Cerrar" },
 

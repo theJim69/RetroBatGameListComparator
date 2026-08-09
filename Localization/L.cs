@@ -318,5 +318,5 @@ public static class L
         LocalizationService.Get(nameof(RepairCompleted));
 
     public static string NoNotGameDetected =>
-    LocalizationService.Get(nameof(NoNotGameDetected));
+    LocalizationService.Get(nameof(NoNotGameDetected)); 
 }

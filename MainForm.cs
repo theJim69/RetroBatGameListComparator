@@ -330,11 +330,14 @@ public partial class MainForm : Form
 
         if (!roms.Any())
         {
-            ListViewItem item =
-                new(L.NoMissingXml);
+            ListViewItem item = new(L.NoMissingXml);
 
-            // Pas de Tag volontairement.
-            // Cette ligne est informative uniquement.
+            item.SubItems.Add("");
+
+            item.ForeColor = Color.DarkGreen;
+            item.Font = new Font(
+                lvMissingFromXml.Font,
+                FontStyle.Bold);
 
             lvMissingFromXml.Items.Add(item);
         }
@@ -382,6 +385,8 @@ public partial class MainForm : Form
 
         IEnumerable<RomEntry> roms = _missingFromDisk;
 
+        
+
         string filter = txtSearchDisk.Text.Trim();
 
         if (!string.IsNullOrWhiteSpace(filter))
@@ -394,19 +399,27 @@ public partial class MainForm : Form
 
         if (!roms.Any())
         {
-            ListViewItem item =
-    new(L.NoMissingDisk);
+            ListViewItem item = new(L.NoMissingDisk);
 
-            // Pas de Tag volontairement.
-            // Cette ligne est informative uniquement.
+            item.SubItems.Add("");      // colonne "Dossier" vide
+
+            item.ForeColor = Color.DarkGreen;
+            item.Font = new Font(
+                lvMissingFromDisk.Font,
+                FontStyle.Bold);
 
             lvMissingFromDisk.Items.Add(item);
         }
+
+
         else
         {
             foreach (RomEntry rom in roms)
             {
-                ListViewItem item = new(rom.FileName);
+                if (rom.IsFolder)
+                    continue;
+
+                ListViewItem item = new(rom.FileName); ;
 
                 string folder =
                     Path.GetDirectoryName(rom.RelativePath);
