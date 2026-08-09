@@ -26,6 +26,11 @@ public class RomEntry
     public string GameListPath { get; set; } = string.Empty;
 
     /// <summary>
+    /// Valeur de la balise <name>.
+    /// </summary>
+    public string DisplayName { get; set; } = string.Empty;
+
+    /// <summary>
     /// Indique si la ROM est présente sur le disque.
     /// </summary>
     public bool ExistsOnDisk { get; set; }
@@ -36,4 +41,5 @@ public class RomEntry
     public bool ExistsInGameList { get; set; }
 
     public bool IsNotGame { get; set; }
+    public bool IsFolder { get; set; }
 }

@@ -105,4 +105,9 @@ public partial class AboutForm : Form
                 MessageBoxIcon.Error);
         }
     }
+
+    private void linkGithub_LinkClicked_1(object sender, LinkLabelLinkClickedEventArgs e)
+    {
+
+    }
 }

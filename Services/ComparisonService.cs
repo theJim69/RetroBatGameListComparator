@@ -36,6 +36,10 @@ public class ComparisonService
         // "ZZZ(notgame)"
         result.NotGameCount =
             gameList.NotGameCount;
+        result.NotGameEntries.AddRange(gameList.NotGameEntries);
+
+        result.RomFolder = gameList.RomFolder;
+        result.GameListPath = gameList.GameListPath;
 
         //----------------------------------------------------------
         // Préparation des HashSet
@@ -89,17 +93,21 @@ public class ComparisonService
             if (gameList.HiddenFiles.Contains(rom.FileName))
                 continue;
 
-            // MultiDisk child files are ignored and must never
-            // appear as "Missing from Disk".
+            // MultiDisk child files are ignored.
             if (gameList.MultiDiskFiles.Contains(rom.FileName))
                 continue;
 
+
             if (!diskPaths.Contains(
-                    NormalizePath(rom.RelativePath)))
+        NormalizePath(rom.RelativePath)))
             {
+                // Ne pas compter les dossiers spéciaux RetroBat
+                if (rom.IsFolder)
+                    continue;
+
                 result.MissingFromDisk.Add(rom);
             }
-        }
+        }   
 
         //----------------------------------------------------------
         // Liste complète des ROMs comparées
@@ -115,6 +123,11 @@ public class ComparisonService
 
         return result;
     }
+    
+
+    //----------------------------------------------------------
+    // Normalize path
+    //----------------------------------------------------------
 
     private static string NormalizePath(string path)
     {
@@ -123,4 +136,5 @@ public class ComparisonService
             .TrimStart('.', '/')
             .Trim();
     }
+
 }

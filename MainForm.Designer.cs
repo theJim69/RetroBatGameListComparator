@@ -50,6 +50,9 @@
             toolStripSeparator1 = new ToolStripSeparator();
             mnuAbout = new ToolStripMenuItem();
             mnuCheckUpdates = new ToolStripMenuItem();
+            ddNotGame = new ToolStripDropDownButton();
+            mnuNotGameList = new ToolStripMenuItem();
+            mnuNotGameFix = new ToolStripMenuItem();
             lblHint = new Label();
             lblMissingDisk = new Label();
             lblMissingXml = new Label();
@@ -139,12 +142,12 @@
             cmbExtension.FormattingEnabled = true;
             cmbExtension.Location = new Point(13, 147);
             cmbExtension.Name = "cmbExtension";
-            cmbExtension.Size = new Size(182, 23);
+            cmbExtension.Size = new Size(227, 23);
             cmbExtension.TabIndex = 7;
             // 
             // btnSelectExtensions
             // 
-            btnSelectExtensions.Location = new Point(205, 147);
+            btnSelectExtensions.Location = new Point(246, 147);
             btnSelectExtensions.Name = "btnSelectExtensions";
             btnSelectExtensions.Size = new Size(30, 23);
             btnSelectExtensions.TabIndex = 8;
@@ -155,7 +158,7 @@
             // chkRecursive
             // 
             chkRecursive.AutoSize = true;
-            chkRecursive.Location = new Point(242, 150);
+            chkRecursive.Location = new Point(283, 150);
             chkRecursive.Margin = new Padding(3, 2, 3, 2);
             chkRecursive.Name = "chkRecursive";
             chkRecursive.Size = new Size(204, 19);
@@ -260,10 +263,10 @@
             // 
             // menuStrip1
             // 
-            menuStrip1.Items.AddRange(new ToolStripItem[] { mnuFile, mnuLanguage, mnuHelp });
+            menuStrip1.Items.AddRange(new ToolStripItem[] { mnuFile, mnuLanguage, mnuHelp, ddNotGame });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(634, 24);
+            menuStrip1.Size = new Size(634, 26);
             menuStrip1.TabIndex = 0;
             menuStrip1.ItemClicked += menuStrip1_ItemClicked_1;
             // 
@@ -271,7 +274,7 @@
             // 
             mnuFile.DropDownItems.AddRange(new ToolStripItem[] { mnuExit });
             mnuFile.Name = "mnuFile";
-            mnuFile.Size = new Size(54, 20);
+            mnuFile.Size = new Size(54, 22);
             mnuFile.Text = "&Fichier";
             // 
             // mnuExit
@@ -285,7 +288,7 @@
             // 
             mnuLanguage.DropDownItems.AddRange(new ToolStripItem[] { mnuEnglish, mnuFrench, mnuSpanish });
             mnuLanguage.Name = "mnuLanguage";
-            mnuLanguage.Size = new Size(71, 20);
+            mnuLanguage.Size = new Size(71, 22);
             mnuLanguage.Text = "Language";
             // 
             // mnuEnglish
@@ -313,7 +316,7 @@
             // 
             mnuHelp.DropDownItems.AddRange(new ToolStripItem[] { mnuGitHub, toolStripSeparator1, mnuAbout, mnuCheckUpdates });
             mnuHelp.Name = "mnuHelp";
-            mnuHelp.Size = new Size(43, 20);
+            mnuHelp.Size = new Size(43, 22);
             mnuHelp.Text = "&Aide";
             // 
             // mnuGitHub
@@ -341,6 +344,30 @@
             mnuCheckUpdates.Size = new Size(193, 22);
             mnuCheckUpdates.Text = "Vérifier les mises à jour";
             mnuCheckUpdates.Click += mnuCheckUpdates_Click;
+            // 
+            // ddNotGame
+            // 
+            ddNotGame.Alignment = ToolStripItemAlignment.Right;
+            ddNotGame.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            ddNotGame.DropDownItems.AddRange(new ToolStripItem[] { mnuNotGameList, mnuNotGameFix });
+            ddNotGame.Enabled = false;
+            ddNotGame.Name = "ddNotGame";
+            ddNotGame.Size = new Size(100, 19);
+            ddNotGame.Text = "ZZZ(NotGame)";
+            // 
+            // mnuNotGameList
+            // 
+            mnuNotGameList.Name = "mnuNotGameList";
+            mnuNotGameList.Size = new Size(142, 22);
+            mnuNotGameList.Text = "📄 List ROMs";
+            mnuNotGameList.Click += mnuNotGameList_Click;
+            // 
+            // mnuNotGameFix
+            // 
+            mnuNotGameFix.Name = "mnuNotGameFix";
+            mnuNotGameFix.Size = new Size(142, 22);
+            mnuNotGameFix.Text = "🛠 Fix ROMs";
+            mnuNotGameFix.Click += mnuNotGameFix_Click;
             // 
             // lblHint
             // 
@@ -582,5 +609,9 @@
         private Label lblNotGame;
         private Label lblMultiDiskIgnored;
         private System.Windows.Forms.ToolTip toolTip1;
+
+        private ToolStripDropDownButton ddNotGame;
+        private ToolStripMenuItem mnuNotGameList;
+        private ToolStripMenuItem mnuNotGameFix;
     }
 }

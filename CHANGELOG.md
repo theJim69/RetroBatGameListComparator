@@ -22,6 +22,28 @@ Future development currently focuses on:
 
 ---
 
+## [2.1.0] - 2026-08-07
+
+### New Features
+- Added complete ZZZ(NotGame) management workflow.
+- Added automatic detection of ScreenScraper ZZZ(NotGame) entries.
+- Added ZZZ(NotGame) statistics counter.
+- Added localized tooltip explaining the ScreenScraper issue.
+- Added ZZZ(NotGame) menu with dedicated actions.
+- Added detailed ZZZ(NotGame) report export.
+- Added automatic GameList.xml backup before any repair.
+- Added automatic repair of ZZZ(NotGame) entries.
+- Added automatic comparison refresh after repair.
+
+### Improved
+- Refactored comparison workflow to allow comparison reuse from multiple actions.
+- Improved overall repair workflow and user experience.
+
+### Localization
+- Added French, English and Spanish translations for the complete ZZZ(NotGame) workflow.
+
+---
+
 # [1.5.2] - 2026-08-05
 
 ### Added

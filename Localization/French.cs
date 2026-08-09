@@ -194,30 +194,32 @@ public static class French
 { "AboutTitle", "À propos" },
 
 { "AboutDescription",
-  "Compare les ROMs présentes sur le disque avec les entrées\r\n" +
-  "du fichier GameList.xml, détecte les différences et facilite\r\n" +
-  "la maintenance des collections RetroBat." },
+  "Outil professionnel de validation\n" +
+  "et de maintenance des GameList.xml\n\n" +
+  "Conçu spécialement pour RetroBat." },
 
-{ "Features", "Fonctionnalités" },
+{ "Features", "Fonctionnalités principales" },
 
 { "AboutFeatures",
-@"✔ Comparaison ROMs ↔ GameList.xml
-✔ Détection des ROMs absentes du XML
-✔ Détection des ROMs absentes du disque
-✔ Gestion de plusieurs extensions (.zip, .7z, .chd...)
-✔ Recherche dans les sous-dossiers
+@"✔ Comparaison ROM ↔ GameList.xml
+✔ Détection des ROMs manquantes (Disque & XML)
+✔ Gestion automatique des ROMs Hidden
+✔ Gestion des ROMs MultiDisk
+✔ Gestion des dossiers spéciaux (+homebrew, +prototype...)
+✔ Détection des ZZZ(NotGame)
+✔ Détection automatique des extensions
+✔ Recherche d'extensions personnalisées
 ✔ Analyse récursive des sous-dossiers
-✔ Recherche instantanée des extensions
-✔ Sélection multiple des extensions
-✔ Détection automatique des nouvelles extensions
-✔ Ouverture directe d'une ROM dans l'Explorateur Windows
-✔ Export des résultats au format TXT
-✔ Export des résultats au format CSV" },
+✔ Ouverture directe d'une ROM
+✔ Sauvegarde automatique du GameList
+✔ Export TXT • CSV
+✔ Diagnostic du GameList
+✔ Français • English • Español" },
 
 { "DevelopedBy", "Développé par\r\ntheJim" },
 
 { "AboutFooter",
-  "Version : {0}      Framework : .NET 8\r\n© 2026 theJim • Windows Forms • C#" },
+  "Développé avec .NET 8\r\nPublié sous licence MIT\r\n© 2026 theJim" },
 
 { "Close", "Fermer" },
 
@@ -350,6 +352,59 @@ public static class French
 Dans ce cas, le nom est remplacé par ""ZZZ(NotGame):..."" et la balise <hidden> du fichier gamelist.xml est automatiquement définie sur true, ce qui masque le jeu dans RetroBat.
 
 Il s'agit d'une limitation connue de l'intégration des métadonnées de ScreenScraper." },
+
+{ "NotGameReportTitle", "Rapport ScreenScraper ZZZ(NotGame)" },
+
+{ "NotGameReportDescription",
+@"Ce rapport liste les ROMs que ScreenScraper a identifiées à tort comme n'étant pas des jeux.
+
+Ces ROMs ont été automatiquement renommées en ""ZZZ(NotGame):..."" et marquées comme cachées
+(<hidden>true</hidden>) dans le fichier GameList.xml.
+
+Il s'agit d'une limitation connue de l'intégration des métadonnées de ScreenScraper." },
+
+{ "NotGameReportDetectedEntries", "Entrées détectées" },
+
+{ "NotGameReportGameName", "Nom du jeu" },
+
+{ "NotGameReportRomFile", "Fichier ROM" },
+
+{ "NotGameReportRelativePath", "Chemin relatif" },
+
+{ "NotGameReportEnd", "Fin du rapport" },
+
+{ "GeneratedBy", "Généré par" },
+
+{ "NotGamePlatformSummary", "Résumé de la plateforme" },
+
+{
+    "NotGameRepairConfirmation",
+@"Cette opération va corriger toutes les ROMs identifiées comme ZZZ(NotGame).
+
+Les modifications suivantes seront appliquées :
+
+• suppression du préfixe ""ZZZ(NotGame):""
+• remplacement de <hidden>true</hidden> par <hidden>false</hidden>
+
+Avant toute modification, une sauvegarde du fichier GameList.xml sera créée automatiquement.
+
+Voulez-vous continuer ?"
+},
+
+{
+    "RepairCompleted",
+@"Correction terminée avec succès.
+
+ROMs corrigées : {0}
+
+Sauvegarde créée :
+
+{1}"
+},
+{
+    "NoNotGameDetected",
+    "Aucune ROM ZZZ(NotGame) n'a été trouvée."
+},
 
     };
 }

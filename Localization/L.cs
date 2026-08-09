@@ -283,4 +283,40 @@ public static class L
     public static string NotGame => LocalizationService.Get(nameof(NotGame));
         public static string NotGameTooltip =>
     LocalizationService.Get(nameof(NotGameTooltip));
+
+    public static string NotGameReportTitle =>
+    LocalizationService.Get(nameof(NotGameReportTitle));
+
+    public static string NotGameReportDescription =>
+        LocalizationService.Get(nameof(NotGameReportDescription));
+
+    public static string NotGameReportDetectedEntries =>
+        LocalizationService.Get(nameof(NotGameReportDetectedEntries));
+
+    public static string NotGameReportGameName =>
+        LocalizationService.Get(nameof(NotGameReportGameName));
+
+    public static string NotGameReportRomFile =>
+        LocalizationService.Get(nameof(NotGameReportRomFile));
+
+    public static string NotGameReportRelativePath =>
+        LocalizationService.Get(nameof(NotGameReportRelativePath));
+
+    public static string NotGameReportEnd =>
+        LocalizationService.Get(nameof(NotGameReportEnd));
+
+    public static string GeneratedBy =>
+        LocalizationService.Get(nameof(GeneratedBy));
+
+    public static string NotGamePlatformSummary =>
+    LocalizationService.Get(nameof(NotGamePlatformSummary));
+
+    public static string NotGameRepairConfirmation =>
+    LocalizationService.Get(nameof(NotGameRepairConfirmation));
+
+    public static string RepairCompleted =>
+        LocalizationService.Get(nameof(RepairCompleted));
+
+    public static string NoNotGameDetected =>
+    LocalizationService.Get(nameof(NoNotGameDetected)); 
 }

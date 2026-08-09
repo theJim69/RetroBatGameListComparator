@@ -54,5 +54,9 @@ public class GameListData
     /// </summary>
     public int NotGameCount { get; set; }
 
+    public string RomFolder { get; set; } = string.Empty;
+
+    public string GameListPath { get; set; } = string.Empty;
+
     public List<RomEntry> NotGameEntries { get; } = new();
 }
