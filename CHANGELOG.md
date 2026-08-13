@@ -13,12 +13,35 @@ Releases are listed from newest to oldest.
 
 Future development currently focuses on:
 
-- Documentation improvements
-- Release validation process
 - GameList management
 - Advanced diagnostics
 - XML maintenance tools
 - Batch operations
+
+---
+
+# [2.2.0] - 2026-08-13
+
+### New Features
+- Added automatic detection of platform-specific extension configurations.
+- Added support for custom `es_systems_*.cfg` configuration files.
+- Added fallback to the main `es_systems.cfg` configuration.
+- Added platform default extension detection.
+- Added visual indication of default platform extensions in the Extension Selector.
+
+### Improved
+- Improved Extension Selector layout and usability.
+- Default platform extensions are automatically selected.
+- Extensions not defined by the platform are displayed in a lighter gray.
+- Added source information for detected platform extensions.
+- Improved extension selection when no platform is selected.
+- Added localized extension selection placeholder.
+- Improved Extension Selector column layout and resizing.
+- Improved multilingual support for the Extension Selector.
+
+### Localization
+- Added localized text for platform default extension information.
+- Added localized default extension indicators in French, English and Spanish.
 
 ---
 

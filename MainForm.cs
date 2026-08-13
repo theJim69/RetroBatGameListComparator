@@ -5,6 +5,7 @@ using RetroBatGameListComparator.Services;
 using System.Diagnostics;
 using System.Threading;
 using RetroBatGameListComparator.Localization;
+using System.Runtime.InteropServices;
 
 
 namespace RetroBatGameListComparator;
@@ -18,6 +19,7 @@ public partial class MainForm : Form
     private readonly ExportService _exportService = new();
     private readonly NotGameReportService _notGameReportService = new();
     private readonly UpdateService _updateService = new();
+    private readonly RetroBatSystemService _retroBatSystemService = new();
 
     private ComparisonResult? _lastResult;
 
@@ -75,6 +77,13 @@ public partial class MainForm : Form
         cmbExtension.AutoCompleteSource = AutoCompleteSource.ListItems;
 
         ReloadExtensions();
+
+        cmbExtension.HandleCreated += (_, _) =>
+        {
+            SetExtensionPlaceholder();
+        };
+
+        SetExtensionPlaceholder();
 
         btnExportTxt.Enabled = false;
         btnExportCsv.Enabled = false;
@@ -222,6 +231,8 @@ public partial class MainForm : Form
 
         txtSearchXml.PlaceholderText = L.PlaceholderSearch;
         txtSearchDisk.PlaceholderText = L.PlaceholderSearch;
+
+        SetExtensionPlaceholder();
 
 
         grpStatistics.Text = L.StatisticsGroup;
@@ -385,7 +396,7 @@ public partial class MainForm : Form
 
         IEnumerable<RomEntry> roms = _missingFromDisk;
 
-        
+
 
         string filter = txtSearchDisk.Text.Trim();
 
@@ -574,20 +585,57 @@ public partial class MainForm : Form
         UpdateCompareButtonState();
     }
 
+    private const int EM_SETCUEBANNER = 0x1501;
+
+    [DllImport("user32.dll", CharSet = CharSet.Unicode)]
+    private static extern IntPtr SendMessage(
+        IntPtr hWnd,
+        int msg,
+        IntPtr wParam,
+        string lParam);
+
+    [DllImport("user32.dll", CharSet = CharSet.Unicode)]
+    private static extern IntPtr FindWindowEx(
+        IntPtr parentHandle,
+        IntPtr childAfter,
+        string? className,
+        string? windowTitle);
+
+    private void SetExtensionPlaceholder()
+    {
+        if (!cmbExtension.IsHandleCreated)
+            return;
+
+        IntPtr editHandle =
+            FindWindowEx(
+                cmbExtension.Handle,
+                IntPtr.Zero,
+                "Edit",
+                null);
+
+        if (editHandle == IntPtr.Zero)
+            return;
+
+        SendMessage(
+            editHandle,
+            EM_SETCUEBANNER,
+            new IntPtr(1),
+            L.DefaultExtensionsWillBeSelected);
+    }
+
+
     private void ReloadExtensions()
     {
-        List<string> current = GetExtensions();
-
         _allExtensions = _extensionService.LoadExtensions();
 
         cmbExtension.DataSource = null;
         cmbExtension.DataSource = _allExtensions;
 
-        if (current.Any())
-        {
-            cmbExtension.Text =
-                _extensionService.Format(current);
-        }
+        // Aucune extension sélectionnée au démarrage.
+        cmbExtension.SelectedIndex = -1;
+        cmbExtension.Text = string.Empty;
+
+        SetExtensionPlaceholder();
     }
 
     private void btnExportTxt_Click(object sender, EventArgs e)
@@ -714,16 +762,63 @@ public partial class MainForm : Form
         List<string> allExtensions =
             _extensionService.LoadExtensions();
 
-        List<string> selectedExtensions =
+        // ---------------------------------------------------------
+        // Aucun dossier ROM / aucune plateforme
+        // ---------------------------------------------------------
+
+        if (string.IsNullOrWhiteSpace(txtRomFolder.Text) ||
+            !Directory.Exists(txtRomFolder.Text))
+        {
+            // Aucune extension ne doit être sélectionnée
+            // lorsqu'aucune plateforme n'est connue.
+            List<string> selectedExtensions =
+                new List<string>();
+
+            using ExtensionSelectorForm form =
+                new(
+                    allExtensions,
+                    selectedExtensions);
+
+            if (form.ShowDialog(this) == DialogResult.OK)
+            {
+                cmbExtension.Text =
+                    _extensionService.Format(
+                        form.SelectedExtensions);
+
+                UpdateCompareButtonState();
+            }
+
+            return;
+        }
+
+        // ---------------------------------------------------------
+        // Un dossier ROM existe : on détermine la plateforme
+        // ---------------------------------------------------------
+
+        string platform =
+            new DirectoryInfo(txtRomFolder.Text).Name;
+
+        PlatformExtensionInfo platformInfo =
+            _retroBatSystemService.GetPlatformExtensions(
+                txtRomFolder.Text,
+                platform);
+
+        // Ici, on conserve la sélection actuelle.
+        List<string> selectedExtensionsForPlatform =
             GetExtensions();
 
-        using ExtensionSelectorForm form =
-            new(allExtensions, selectedExtensions);
+        using ExtensionSelectorForm platformForm =
+            new(
+                allExtensions,
+                selectedExtensionsForPlatform,
+                platformInfo);
 
-        if (form.ShowDialog(this) == DialogResult.OK)
+        if (platformForm.ShowDialog(this) == DialogResult.OK)
         {
             cmbExtension.Text =
-                _extensionService.Format(form.SelectedExtensions);
+                _extensionService.Format(
+                    platformForm.SelectedExtensions);
+
             UpdateCompareButtonState();
         }
     }
@@ -930,8 +1025,8 @@ public partial class MainForm : Form
         lblHiddenIgnored.Text =
             string.Format(L.HiddenGames, result.HiddenIgnoredCount);
 
-          lblMissingXml.Text =
-            string.Format(L.MissingXml, result.MissingFromXml.Count);
+        lblMissingXml.Text =
+          string.Format(L.MissingXml, result.MissingFromXml.Count);
 
         lblMissingDisk.Text =
             string.Format(L.MissingDisk, result.MissingFromDisk.Count);
@@ -1165,6 +1260,11 @@ public partial class MainForm : Form
     }
 
     private void lblNotGame_Click(object sender, EventArgs e)
+    {
+
+    }
+
+    private void cmbExtension_SelectedIndexChanged(object sender, EventArgs e)
     {
 
     }

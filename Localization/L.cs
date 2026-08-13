@@ -215,6 +215,8 @@ public static class L
 
     public static string SelectedExtensions => LocalizationService.Get(nameof(SelectedExtensions));
 
+    public static string DefaultPlatformExtensionsInfo => LocalizationService.Get(nameof(DefaultPlatformExtensionsInfo));
+
     public static string ExportTitle => LocalizationService.Get(nameof(ExportTitle));
 
     public static string ExportDate => LocalizationService.Get(nameof(ExportDate));
@@ -318,5 +320,10 @@ public static class L
         LocalizationService.Get(nameof(RepairCompleted));
 
     public static string NoNotGameDetected =>
-    LocalizationService.Get(nameof(NoNotGameDetected)); 
+    LocalizationService.Get(nameof(NoNotGameDetected));
+
+    public static string DefaultExtensionsWillBeSelected =>
+    LocalizationService.Get(nameof(DefaultExtensionsWillBeSelected));
+    public static string DefaultColumn =>
+    LocalizationService.Get(nameof(DefaultColumn));
 }
