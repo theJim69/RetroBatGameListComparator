@@ -267,6 +267,12 @@ public static class English
 
 { "SelectedExtensions", "{0} extension(s) selected" },
 
+{
+    "DefaultPlatformExtensionsInfo",
+    "Default extensions for platform \"{0}\": {1}\nSource: {2}"
+},
+
+
 // ==========================================================
 // EXPORT
 // ==========================================================
@@ -406,6 +412,16 @@ Backup created:
 {
     "NoNotGameDetected",
     "No ZZZ(NotGame) entries were found."
+},
+
+{
+    "DefaultExtensionsWillBeSelected",
+    "---> Select extensions"
+},
+
+{
+    "DefaultColumn",
+    "Default"
 },
 
     };

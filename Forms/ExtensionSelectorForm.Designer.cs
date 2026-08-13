@@ -1,4 +1,6 @@
-ï»¿namespace RetroBatGameListComparator;
+using RetroBatGameListComparator.Localization;
+
+namespace RetroBatGameListComparator;
 
 partial class ExtensionSelectorForm
 {
@@ -12,7 +14,7 @@ partial class ExtensionSelectorForm
         base.Dispose(disposing);
     }
 
-    #region Code gÃ©nÃ©rÃ© par le Concepteur Windows Form
+    #region Code généré par le Concepteur Windows Form
 
     private Label lblSearch;
     private TextBox txtSearch;
@@ -21,6 +23,7 @@ partial class ExtensionSelectorForm
     {
         lvExtensions = new ListView();
         colExtension = new ColumnHeader();
+        colDefault = new ColumnHeader();
         btnSelectAll = new Button();
         btnClearAll = new Button();
         btnOK = new Button();
@@ -28,59 +31,19 @@ partial class ExtensionSelectorForm
         lblSearch = new Label();
         txtSearch = new TextBox();
         lblCount = new Label();
-
         SuspendLayout();
-
-        //
-        // lblSearch
-        //
-        lblSearch.AutoSize = true;
-        lblSearch.Location = new Point(12, 15);
-        lblSearch.Name = "lblSearch";
-        lblSearch.Size = new Size(67, 15);
-        lblSearch.Text = "Rechercher";
-
-        //
-        // btnSelectAll
-        //
-        btnSelectAll.Location = new Point(12, 42);
-        btnSelectAll.Name = "btnSelectAll";
-        btnSelectAll.Size = new Size(100, 26);
-        btnSelectAll.TabIndex = 2;
-        btnSelectAll.Text = "Tout cocher";
-        btnSelectAll.UseVisualStyleBackColor = true;
-        btnSelectAll.Click += btnSelectAll_Click;
-
-        //
-        // btnClearAll
-        //
-        btnClearAll.Location = new Point(118, 42);
-        btnClearAll.Name = "btnClearAll";
-        btnClearAll.Size = new Size(110, 26);
-        btnClearAll.TabIndex = 3;
-        btnClearAll.Text = "Tout dÃ©cocher";
-        btnClearAll.UseVisualStyleBackColor = true;
-        btnClearAll.Click += btnClearAll_Click;
-
-        //
-        // txtSearch
-        //
-        txtSearch.Location = new Point(90, 12);
-        txtSearch.Name = "txtSearch";
-        txtSearch.Size = new Size(282, 23);
-        txtSearch.TextChanged += txtSearch_TextChanged;
-
         //
         // lvExtensions
         //
         lvExtensions.CheckBoxes = true;
-        lvExtensions.Columns.AddRange(new ColumnHeader[]
-        {
-            colExtension
-        });
+        lvExtensions.Columns.AddRange(
+    new ColumnHeader[]
+    {
+        colExtension,
+        colDefault
+    });
         lvExtensions.FullRowSelect = true;
         lvExtensions.GridLines = true;
-        lvExtensions.HideSelection = false;
         lvExtensions.Location = new Point(12, 75);
         lvExtensions.MultiSelect = false;
         lvExtensions.Name = "lvExtensions";
@@ -89,22 +52,35 @@ partial class ExtensionSelectorForm
         lvExtensions.UseCompatibleStateImageBehavior = false;
         lvExtensions.View = View.Details;
         lvExtensions.ItemChecked += lvExtensions_ItemChecked;
-
         //
         // colExtension
         //
         colExtension.Text = "Extension";
-        colExtension.Width = 330;
-
+        colExtension.Width = 235;
         //
-        // lblCount
+        // colDefault
         //
-        lblCount.AutoSize = true;
-        lblCount.Location = new Point(12, 445);
-        lblCount.Name = "lblCount";
-        lblCount.Size = new Size(0, 15);
-        lblCount.TabIndex = 5;
-
+        colDefault.Text = L.DefaultColumn;
+        //
+        // btnSelectAll
+        //
+        btnSelectAll.Location = new Point(28, 41);
+        btnSelectAll.Name = "btnSelectAll";
+        btnSelectAll.Size = new Size(100, 26);
+        btnSelectAll.TabIndex = 2;
+        btnSelectAll.Text = "Tout cocher";
+        btnSelectAll.UseVisualStyleBackColor = true;
+        btnSelectAll.Click += btnSelectAll_Click;
+        //
+        // btnClearAll
+        //
+        btnClearAll.Location = new Point(143, 42);
+        btnClearAll.Name = "btnClearAll";
+        btnClearAll.Size = new Size(110, 26);
+        btnClearAll.TabIndex = 3;
+        btnClearAll.Text = "Tout décocher";
+        btnClearAll.UseVisualStyleBackColor = true;
+        btnClearAll.Click += btnClearAll_Click;
         //
         // btnOK
         //
@@ -115,7 +91,6 @@ partial class ExtensionSelectorForm
         btnOK.Text = "OK";
         btnOK.UseVisualStyleBackColor = true;
         btnOK.Click += btnOK_Click;
-
         //
         // btnCancel
         //
@@ -126,7 +101,31 @@ partial class ExtensionSelectorForm
         btnCancel.Text = "Annuler";
         btnCancel.UseVisualStyleBackColor = true;
         btnCancel.Click += btnCancel_Click;
-
+        //
+        // lblSearch
+        //
+        lblSearch.AutoSize = true;
+        lblSearch.Location = new Point(12, 15);
+        lblSearch.Name = "lblSearch";
+        lblSearch.Size = new Size(66, 15);
+        lblSearch.TabIndex = 5;
+        lblSearch.Text = "Rechercher";
+        //
+        // txtSearch
+        //
+        txtSearch.Location = new Point(90, 12);
+        txtSearch.Name = "txtSearch";
+        txtSearch.Size = new Size(282, 23);
+        txtSearch.TabIndex = 4;
+        txtSearch.TextChanged += txtSearch_TextChanged;
+        //
+        // lblCount
+        //
+        lblCount.AutoSize = true;
+        lblCount.Location = new Point(12, 445);
+        lblCount.Name = "lblCount";
+        lblCount.Size = new Size(0, 15);
+        lblCount.TabIndex = 5;
         //
         // ExtensionSelectorForm
         //
@@ -147,15 +146,16 @@ partial class ExtensionSelectorForm
         Name = "ExtensionSelectorForm";
         ShowInTaskbar = false;
         StartPosition = FormStartPosition.CenterParent;
-        Text = "SÃ©lection des extensions";
-
+        Text = "Sélection des extensions";
         ResumeLayout(false);
+        PerformLayout();
     }
 
     #endregion
 
     private ListView lvExtensions;
     private ColumnHeader colExtension;
+    private ColumnHeader colDefault;
     private Button btnOK;
     private Button btnCancel;
     private Button btnSelectAll;

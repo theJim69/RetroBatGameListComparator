@@ -120,7 +120,7 @@ public static class Spanish
         // EXTENSIONS
         // ==========================================================
 
-       { "NewExtension", "Nueva extensión" },
+        { "NewExtension", "Nueva extensión" },
 { "NewExtensionsTitle", "Nuevas extensiones" },
 
 { "AddExtensionQuestion", "¿Agregar {0} a la lista?" },
@@ -280,6 +280,11 @@ public static class Spanish
 
 { "SelectedExtensions", "{0} extensión(es) seleccionada(s)" },
 
+{
+    "DefaultPlatformExtensionsInfo",
+    "Extensiones predeterminadas de la plataforma « {0} »: {1}\nFuente: {2}"
+},
+
 // ==========================================================
 // EXPORT
 // ==========================================================
@@ -416,6 +421,16 @@ Copia de seguridad creada:
 {
     "NoNotGameDetected",
     "No se encontró ninguna ROM ZZZ(NotGame)."
+},
+
+{
+    "DefaultExtensionsWillBeSelected",
+    "---> Seleccionar las extensiones"
+},
+
+{
+    "DefaultColumn",
+    "Predeterminado"
 },
 
     };

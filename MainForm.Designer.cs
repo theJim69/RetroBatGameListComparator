@@ -142,12 +142,13 @@
             cmbExtension.FormattingEnabled = true;
             cmbExtension.Location = new Point(13, 147);
             cmbExtension.Name = "cmbExtension";
-            cmbExtension.Size = new Size(227, 23);
+            cmbExtension.Size = new Size(242, 23);
             cmbExtension.TabIndex = 7;
+            cmbExtension.SelectedIndexChanged += cmbExtension_SelectedIndexChanged;
             // 
             // btnSelectExtensions
             // 
-            btnSelectExtensions.Location = new Point(246, 147);
+            btnSelectExtensions.Location = new Point(261, 147);
             btnSelectExtensions.Name = "btnSelectExtensions";
             btnSelectExtensions.Size = new Size(30, 23);
             btnSelectExtensions.TabIndex = 8;
@@ -158,7 +159,7 @@
             // chkRecursive
             // 
             chkRecursive.AutoSize = true;
-            chkRecursive.Location = new Point(283, 150);
+            chkRecursive.Location = new Point(298, 150);
             chkRecursive.Margin = new Padding(3, 2, 3, 2);
             chkRecursive.Name = "chkRecursive";
             chkRecursive.Size = new Size(204, 19);

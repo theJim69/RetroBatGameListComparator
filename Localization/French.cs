@@ -267,6 +267,12 @@ public static class French
 
 { "SelectedExtensions", "{0} extension(s) sélectionnée(s)" },
 
+{
+    "DefaultPlatformExtensionsInfo",
+    "Extensions par défaut de la plateforme « {0} » : {1}\nSource : {2}"
+},
+
+
 // ==========================================================
 // EXPORT
 // ==========================================================
@@ -405,6 +411,16 @@ Sauvegarde créée :
     "NoNotGameDetected",
     "Aucune ROM ZZZ(NotGame) n'a été trouvée."
 },
+
+{
+    "DefaultExtensionsWillBeSelected",
+    "---> Sélectionner les extensions"
+},
+
+{
+    "DefaultColumn",
+    "Défaut"
+}
 
     };
 }

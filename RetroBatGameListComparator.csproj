@@ -7,11 +7,11 @@
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
 
-   <!-- Version -->
-<Version>2.1.0</Version>
-<AssemblyVersion>2.1.0.0</AssemblyVersion>
-<FileVersion>2.1.0.0</FileVersion>
-<InformationalVersion>2.1.0</InformationalVersion>
+<!-- Version -->
+<Version>2.2.0</Version>
+<AssemblyVersion>2.2.0.0</AssemblyVersion>
+<FileVersion>2.2.0.0</FileVersion>
+<InformationalVersion>2.2.0</InformationalVersion>
 
     <!-- Informations -->
     <Company>theJim</Company>
