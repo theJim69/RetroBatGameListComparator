@@ -14,7 +14,7 @@ and **ZZZ(NotGame)** entries.
 
 **Latest Release: v2.2.0** 🚀
 
-![GitHub release](https://img.shields.io/github/v/release/theJim69/RetroBatGameListComparator?style=for-the-badge)
+![Version](https://img.shields.io/github/v/tag/theJim69/RetroBatGameListComparator?style=for-the-badge&label=VERSION)
 ![GitHub Downloads](https://img.shields.io/github/downloads/theJim69/RetroBatGameListComparator/total?style=for-the-badge)
 ![License](https://img.shields.io/github/license/theJim69/RetroBatGameListComparator?style=for-the-badge)
 ![.NET](https://img.shields.io/badge/.NET-8.0-purple?style=for-the-badge)
