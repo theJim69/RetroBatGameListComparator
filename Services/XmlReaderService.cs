@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.Text;
+using System.Text.Json;
 using System.Xml.Linq;
 using RetroBatGameListComparator.Models;
 
@@ -10,7 +11,7 @@ public class XmlReaderService
         string xmlFile,
         string romFolder)
     {
-        XDocument document = XDocument.Load(xmlFile);
+        XDocument document = LoadXmlDocument(xmlFile);
 
         GameListData result = new();
 
@@ -216,5 +217,26 @@ public class XmlReaderService
             .Replace('\\', '/')
             .TrimStart('.', '/')
             .Trim();
+    }
+
+    private static XDocument LoadXmlDocument(string file)
+    {
+        byte[] bytes = File.ReadAllBytes(file);
+
+        string xml = Encoding.UTF8.GetString(bytes);
+
+        // Supprime un éventuel BOM UTF-8 interprété comme
+        // caractère Unicode dans le contenu du fichier.
+        while (xml.Length > 0 && xml[0] == '\uFEFF')
+            xml = xml[1..];
+
+        // Si des caractères parasites précèdent le XML,
+        // on commence au premier '<'.
+        int index = xml.IndexOf('<');
+
+        if (index > 0)
+            xml = xml[index..];
+
+        return XDocument.Parse(xml);
     }
 }

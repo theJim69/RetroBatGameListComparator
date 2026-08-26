@@ -12,7 +12,7 @@ Detect missing ROMs, obsolete XML entries, and inconsistencies while
 correctly handling RetroBat-specific cases such as **Hidden**, **MultiDisk**
 and **ZZZ(NotGame)** entries.
 
-**Latest Release: v2.2.0** 🚀
+**Latest Release: v2.2.1** 🚀
 
 ![Version](https://img.shields.io/github/v/tag/theJim69/RetroBatGameListComparator?style=for-the-badge&label=VERSION)
 ![GitHub Downloads](https://img.shields.io/github/downloads/theJim69/RetroBatGameListComparator/total?style=for-the-badge)
@@ -78,7 +78,16 @@ validation tool** for RetroBat users.
 
 ---
 
-# 🆕 What's New in v2.2.0
+## v2.2.1 — August 26, 2026
+
+### 🐛 Bug Fixes
+
+- Fixed an issue when reading `gamelist.xml` files encoded as UTF-8 with BOM.
+- Improved XML loading robustness for RetroBat gamelists.
+
+---
+
+# v2.2.0 Platform ROM extension
 
 Version **2.2.0** introduces intelligent **platform-aware ROM extension
 detection** and significant improvements to the Extension Selector.
