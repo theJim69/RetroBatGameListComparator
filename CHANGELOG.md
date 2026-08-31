@@ -20,6 +20,15 @@ Future development currently focuses on:
 
 ---
 
+# [2.2.2] - 2026-08-31
+
+### Improved
+- Automatically reloads the default platform extensions when a new `gamelist.xml` is loaded via Drag & Drop.
+- Automatically reloads the default platform extensions when a new `gamelist.xml` is selected using the Browse button.
+- Improved consistency between GameList Drag & Drop and manual GameList selection.
+
+---
+
 # [2.2.0] - 2026-08-13
 
 ### New Features

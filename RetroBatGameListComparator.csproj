@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
@@ -7,16 +7,16 @@
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
 
-<Version>2.2.1</Version>
-<AssemblyVersion>2.2.1.0</AssemblyVersion>
-<FileVersion>2.2.1.0</FileVersion>
-<InformationalVersion>2.2.1</InformationalVersion>
+<Version>2.2.2</Version>
+<AssemblyVersion>2.2.2.0</AssemblyVersion>
+<FileVersion>2.2.2.0</FileVersion>
+<InformationalVersion>2.2.2</InformationalVersion>
 
     <!-- Informations -->
     <Company>theJim</Company>
     <Product>RetroBat GameList Comparator</Product>
     <Authors>theJim</Authors>
-    <Copyright>© 2026 theJim</Copyright>
+    <Copyright>� 2026 theJim</Copyright>
     <Description>Compare RetroBat ROM folders with gamelist.xml while supporting Hidden and MultiDisk games.</Description>
 
   </PropertyGroup>
