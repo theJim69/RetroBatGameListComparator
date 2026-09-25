@@ -78,6 +78,15 @@ validation tool** for RetroBat users.
 
 ---
 
+# [2.2.3] - 2026-09-25
+
+### Fixed
+
+- Fixed ROM scanning for platforms where games are represented by directories with an extension in their name.
+- ROM directories using extensions such as `.hypseus`, `.teknoparrot`, or `.psvita` are now correctly detected when the extension is selected.
+
+---
+
 ## v2.2.1 — August 26, 2026
 
 ### 🐛 Bug Fixes

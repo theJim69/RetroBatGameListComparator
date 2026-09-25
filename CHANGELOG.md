@@ -20,6 +20,15 @@ Future development currently focuses on:
 
 ---
 
+# [2.2.3] - 2026-09-25
+
+### Fixed
+
+- Fixed ROM scanning for platforms where games are represented by directories with an extension in their name.
+- ROM directories using extensions such as `.hypseus`, `.teknoparrot`, or `.psvita` are now correctly detected when the extension is selected.
+
+---
+
 # [2.2.2] - 2026-08-31
 
 ### Improved
